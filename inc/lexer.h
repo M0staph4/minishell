@@ -9,6 +9,15 @@ typedef struct s_lexer{
     int cunt_arg;
 } t_lexer;
 
+typedef struct s_parse{
+    char *cmd;
+    char *arg;
+    char *ops;
+    char *pipe;
+    char *red;
+    struct s_parse *next;
+}   t_parse;
+
 t_lexer *init_lexer(char *line);
 void	lexer_advance(t_lexer *lexer);
 void	lexer_skip_whitespaces(t_lexer *lexer);
