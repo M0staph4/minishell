@@ -30,18 +30,41 @@ int find_second_one(char *line, int pos)
 	return(-1);
 }
 
-// int check_pipe(char *line)
-// {
-// 	int i;
-// 	i = 0;
-// 	while(line[pos + 1])
-// 	{
-// 		if(line[pos + 1] == '|')
-// 			return(0);
-// 		pos++;
-// 	}
-// 	return(1);
-// }
+int check_second_pipe(char *line, int pos)
+{
+	pos++;
+	while(line[pos] <= 32 && line[pos] <= 127 && line[pos])
+		pos++;
+	if(line[pos] == '|')
+		return(-1);
+	if(!line[pos])
+		return(-1);
+	return(pos);
+}
+
+int check_pipe(char *line)
+{
+	int i; 
+	i = 0;
+	while(line[i])
+	{
+		if(line[0] == '|')
+			return(0);
+		if(line[strlen(line)-1] == '|')
+			return(0);
+		if (line[i] == '|' && line[i + 1] == '|')
+			return(0);
+		if(line[i] == '|')
+		{
+			if(check_second_pipe(line, i) == -1)
+				return(0);
+			else
+				i = check_second_pipe(line, i);
+		}
+		i++;
+	}
+	return(1);
+}
 
 int	check_quotes(char *line)
 {
@@ -67,8 +90,8 @@ int ft_syntax_error(char *line)
 	i = 0;
 	if(!check_quotes(line))
 			return(0);
-	// if(!check_pipe(line))
-	// 	return(0);
+	if(!check_pipe(line))
+		return(0);
 	else
 		return(1);
 }
@@ -112,13 +135,11 @@ t_token *get_next_token(t_lexer *lexer)
 	{
 		if (lexer->c == ' ')
 			lexer_skip_whitespaces(lexer);
-		if (lexer->c == '"')
+		else if (lexer->c == '"')
 			return (collect_string(lexer));
-		if(lexer->c == '\'')
+		else if(lexer->c == '\'')
 			return (collect_string(lexer));
-		if(ft_isalnum(lexer->c))
-			return (collect_string(lexer));
-		if (lexer->c == '<' )
+		else if (lexer->c == '<' )
 		{
 			lexer_advance(lexer);
 			if(lexer->c == '<')
@@ -126,7 +147,7 @@ t_token *get_next_token(t_lexer *lexer)
 			else 
 				return (advance_token(lexer, init_token(TOKEN_REDOUT, "<")));
 		}
-		if (lexer->c == '>' )
+		else if (lexer->c == '>' )
 		{
 			lexer_advance(lexer);
 			if(lexer->c == '>')
@@ -134,8 +155,11 @@ t_token *get_next_token(t_lexer *lexer)
 			else 
 				return (advance_token(lexer, init_token(TOKEN_REDIN, ">")));
 		}
-		if (lexer->c == '|')
+		else if (lexer->c == '|')
 			return (advance_token(lexer, init_token(TOKEN_PIPE, get_char_as_string(lexer))));
+		else
+			return (collect_string(lexer));
+		
 	}
 	return (NULL);
 }
