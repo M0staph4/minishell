@@ -46,12 +46,12 @@ int check_pipe(char *line)
 {
 	int i; 
 	i = 0;
+	if(line[0] == '|')
+		return(0);
+	if(line[ft_strlen(line)-1] == '|')
+			return(0);
 	while(line[i])
 	{
-		if(line[0] == '|')
-			return(0);
-		if(line[strlen(line)-1] == '|')
-			return(0);
 		if (line[i] == '|' && line[i + 1] == '|')
 			return(0);
 		if(line[i] == '|')
