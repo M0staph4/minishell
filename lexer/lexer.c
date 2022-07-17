@@ -95,6 +95,7 @@ int ft_syntax_error(char *line)
 	else
 		return(1);
 }
+
 t_lexer *init_lexer(char *line)
 {
 	t_lexer *lexer;
@@ -128,6 +129,26 @@ void	lexer_skip_whitespaces(t_lexer *lexer)
 		lexer_advance(lexer);
 }
 
+t_token *collect_cmd(t_lexer *lexer)
+{
+	char *value;
+	char *s;
+
+	value = malloc(1);
+	value[0] = '\0';
+	while (lexer->c != '"' && lexer->c != '\'' && lexer->c != ' ' && lexer->c != '\0' && lexer->c != '|' && lexer->c != '>' && lexer->c != '<')
+	{
+		s = get_char_as_string(lexer);
+		value = ft_strjoin(value, s);
+		lexer_advance(lexer);
+		if(lexer->c == ' ' && lexer->c != '\0')
+			lexer_advance(lexer);
+		lexer->cunt_arg += 1;
+	}
+	//lexer_advance(lexer);
+	return(init_token(TOKEN_CMD, value));
+}
+
 t_token *get_next_token(t_lexer *lexer)
 {
 
@@ -158,7 +179,7 @@ t_token *get_next_token(t_lexer *lexer)
 		else if (lexer->c == '|')
 			return (advance_token(lexer, init_token(TOKEN_PIPE, get_char_as_string(lexer))));
 		else
-			return (collect_string(lexer));
+			return (collect_cmd(lexer));
 		
 	}
 	return (NULL);
@@ -169,11 +190,11 @@ t_token *collect_string(t_lexer *lexer)
 	char *value;
 	char *s;
 
-	value = malloc(2);
+	value = malloc(1);
 	value[0] = '\0';
 	if (lexer->c == '"' || lexer->c == '\'')
 		lexer_advance(lexer);
-	while (lexer->c != '"' && lexer->c != '\'' && lexer->c != ' ' && lexer->c != '\0')
+	while (lexer->c != '"' && lexer->c != '\'' && lexer->c != '\0')
 	{
 		s = get_char_as_string(lexer);
 		value = ft_strjoin(value, s);
@@ -202,12 +223,6 @@ t_token *advance_token(t_lexer *lexer, t_token *token)
 	return (token);
 }
 
-void sigintHandler(int sgnl)
-{
-	if (sgnl == SIGINT)
-		readline("\nour minishell: ");
-}
-
 int main(int ac, char **av)
 {
 	t_token *token;
@@ -215,18 +230,21 @@ int main(int ac, char **av)
 	char *line;
 	(void) ac;
 	(void) av;
-	while (1)
+	while ("everything is okey")
 	{
 		line = readline("our minishell: ");
 		lexer = init_lexer(line);
-		if(lexer){
-		while(lexer->c != '\0'){
-			token = get_next_token(lexer);
-		//ft_parse(lexer, token);
-		printf("TOKEN(%d, %s)\n", token->type, token->content);}}
+		if(lexer)
+		{
+			while(lexer->c != '\0')
+			{
+				token = get_next_token(lexer);
+				printf("TOKEN(%d, %s)\n", token->type, token->content);
+				//ft_parse(lexer, token);
+			}
+		}
 		//lexer_advance(lexer);
 	}
-	signal(SIGINT, sigintHandler);
 	return (0);
 
 }
