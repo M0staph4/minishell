@@ -6,6 +6,7 @@ typedef struct s_lexer{
     char			c;
     char			*line;
     unsigned int	pos;
+    int q_pos;
     int cunt_arg;
 } t_lexer;
 
