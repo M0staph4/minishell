@@ -14,6 +14,7 @@ typedef struct s_token
     TOKEN_REDOUT,
     TOKEN_HEREDOC,
     TOKEN_APPEND,
+    TOKEN_OPN,
     }type;
 }   t_token;
 
