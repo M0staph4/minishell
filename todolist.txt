@@ -1,0 +1,13 @@
+ls ""
+
+ls "s"d
+
+ls >>
+
+
+ls "''d"
+
+'file'"a'"
+
+echo '>'
+"a"'s '"b"
