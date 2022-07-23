@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -lreadline
+CFLAGS = -Wall -Wextra -Werror -lreadline -fsanitize= -g3
 SRC = lexer/lexer.c lexer/tokenizer.c
 LIB = libft.a
 

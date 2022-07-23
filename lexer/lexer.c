@@ -297,6 +297,20 @@ t_token *advance_token(t_lexer *lexer, t_token *token)
 	return (token);
 }
 
+// void ft_parse(t_lexer *lexer, t_token *token)
+// {
+// 	t_parse *parse;
+
+// 	parse = mallco(sizeof(t_parse));
+
+// 	if(token->type == TOKEN_CMD)
+// 		add_cmd_to_list(token->content, parse);
+// 	if(token->type == TOKEN_APPEND)
+// 		add_file_to_list(token->content, parse);
+// 	if(token->type == TOKEN_PIPE)
+// 		add_new_node(parse);
+// }
+
 int main(int ac, char **av)
 {
 	t_token *token;
@@ -313,14 +327,10 @@ int main(int ac, char **av)
 			while(lexer->c != '\0')
 			{
 				token = get_next_token(lexer);
-				if(token)
-					printf("TOKEN(%d, %s)\n", token->type, token->content);
+				printf("TOKEN(%d, %s)\n", token->type, token->content);
 				//ft_parse(lexer, token);
 			}
 		}
-		//free(line);
-		//free(lexer);
 	}
 	return (0);
-
 }
