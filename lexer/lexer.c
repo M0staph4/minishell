@@ -119,6 +119,18 @@ int ft_syntax_error(char *line)
 		return(1);
 }
 
+int ft_count_pipe(char *line)
+{
+	int i;
+	int x;
+	i = -1;
+	x = 1;
+	while(line[++i])
+		if(line[i] == '|')
+			x++;
+	return(x);
+}
+
 t_lexer *init_lexer(char *line)
 {
 	t_lexer *lexer;
@@ -133,13 +145,14 @@ t_lexer *init_lexer(char *line)
 		printf("SYNTAX ERROR\n");
 		return(NULL);
 	}
+	lexer->nb_pipe = ft_count_pipe(lexer->line);
 	lexer->c = lexer->line[lexer->pos];
 	return (lexer);
 }
 
 void	lexer_advance(t_lexer *lexer)
 {
-	if (lexer->c != '\0' && lexer->pos < ft_strlen(lexer->line))
+	if (lexer->c != '\0')
 	{
 		lexer->pos++;
 		lexer->c = lexer->line[lexer->pos];
@@ -163,37 +176,14 @@ t_token *collect_cmd(t_lexer *lexer)
 	{
 		if(lexer->c == '"' || lexer->c == '\'')
 			lexer_advance(lexer);
-		s = get_char_as_string(lexer);  
-		value = ft_strjoin(value, s);
-		lexer_advance(lexer);
-		lexer->cunt_arg += 1;
-	}
-	//free(s);
-	return(init_token(TOKEN_CMD, value));
-}
-
-t_token *collect_opn(t_lexer *lexer)
-{
-	char *value;
-	char *s;
-
-	value = malloc(1);
-	value[0] = '\0';
-	s = get_char_as_string(lexer);
-	value = ft_strjoin(value, s);
-	//free(s);
-	lexer_advance(lexer);
-	while ((lexer->c >= 'a' && lexer->c <= 'z') || (lexer->c >= 'A' && lexer->c <= 'Z'))
-	{
 		s = get_char_as_string(lexer);
 		value = ft_strjoin(value, s);
 		lexer_advance(lexer);
 	}
-	if((lexer->c < 'a' && lexer->c > 'z') || (lexer->c < 'A' && lexer->c > 'Z'))
-		return(NULL);
-	lexer_advance(lexer);
+	while(lexer->c == ' ')
+		lexer_advance(lexer);
 	//free(s);
-	return(init_token(TOKEN_OPN, value));
+	return(init_token(TOKEN_STR, value));
 }
 
 t_token *collect_string_sngl(t_lexer *lexer)
@@ -248,8 +238,6 @@ t_token *get_next_token(t_lexer *lexer)
 		}
 		else if (lexer->c == '|')
 			return (advance_token(lexer, init_token(TOKEN_PIPE, get_char_as_string(lexer))));
-		else if(lexer->c == '-')
-			return(collect_opn(lexer));
 		else
 			return (collect_cmd(lexer));
 	}
@@ -279,8 +267,6 @@ t_token *collect_string(t_lexer *lexer)
 	return(init_token(TOKEN_STR, value));
 }
 
-
-
 char *get_char_as_string(t_lexer *lexer)
 {
 	char *str;
@@ -295,32 +281,4 @@ t_token *advance_token(t_lexer *lexer, t_token *token)
 {
 	lexer_advance(lexer);
 	return (token);
-}
-
-int main(int ac, char **av)
-{
-	t_token *token;
-	t_lexer *lexer;
-	char *line;
-	(void) ac;
-	(void) av;
-	while ("everything is okey")
-	{
-		line = readline("minishell: ");
-		lexer = init_lexer(line);
-		if(lexer)
-		{
-			while(lexer->c != '\0')
-			{
-				token = get_next_token(lexer);
-				if(token)
-					printf("TOKEN(%d, %s)\n", token->type, token->content);
-				//ft_parse(lexer, token);
-			}
-		}
-		//free(line);
-		//free(lexer);
-	}
-	return (0);
-
 }
