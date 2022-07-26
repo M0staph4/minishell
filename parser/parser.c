@@ -66,7 +66,6 @@ void	lexing(char *line, t_token *token)
 		x = 0;
 		i = 0;
 		i = args_in_pipe[x];
-		printf("ddddddd%d\n", i);
 		args = (char **)malloc(sizeof(char *) * i + 1);
 		while(lexers->c)
 		{
@@ -86,14 +85,12 @@ void	lexing(char *line, t_token *token)
 				args[y] = token->content;
 				y++;
 			}
+			if(token->type == TOKEN_REDIN || token->type == TOKEN_REDOUT || token->type == TOKEN_APPEND)
+			{
+				
+			}
 		}
 		args[y] = NULL;
-		y = 0;
-		while(args[y])
-		{
-			printf("%s\n", args[y]);
-			y++;
-		}
 	}
 }
 
