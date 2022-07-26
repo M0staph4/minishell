@@ -11,7 +11,10 @@ int main(int ac, char **av, char **env)
 	while ("everything is okey")
 	{
 		line = readline("minishell: ");
-		lexing(line, &token);
+		if(ft_syntax_error(line))
+			lexing(line, &token);
+		else
+			printf("SYNTAX ERROR\n");
 	}
 	return (0);
 }
