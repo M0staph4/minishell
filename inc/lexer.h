@@ -9,6 +9,8 @@ typedef struct s_lexer{
     int q_pos;
     int cunt_arg;
     int nb_pipe;
+    int *nb_args;
+    int x;
 } t_lexer;
 
 typedef struct s_parse{
@@ -30,5 +32,6 @@ t_token *advance_token(t_lexer *lexer, t_token *token);
 t_token *collect_cmd(t_lexer *lexer);
 t_token *collect_red(t_lexer *lexer, int i);
 int ft_syntax_error(char *line);
+//int *count_args_pipe(char *line, int y);
 
 #endif

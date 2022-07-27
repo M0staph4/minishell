@@ -141,7 +141,9 @@ t_lexer *init_lexer(char *line)
 	lexer->pos = 0;
 	lexer->cunt_arg = 0;
 	lexer->nb_pipe = ft_count_pipe(lexer->line);
+	lexer->nb_args = (int *)malloc(sizeof(int) * lexer->nb_pipe + 1);
 	lexer->c = lexer->line[lexer->pos];
+	lexer->x = 0;
 	return (lexer);
 }
 
@@ -177,7 +179,6 @@ t_token *collect_cmd(t_lexer *lexer)
 	}
 	while(lexer->c == ' ')
 		lexer_advance(lexer);
-	//free(s);
 	return(init_token(TOKEN_STR, value));
 }
 
@@ -212,7 +213,7 @@ t_token *collect_red(t_lexer *lexer, int i)
 	value[0] = '\0';
 	while (lexer->c == ' ')
 		lexer_advance(lexer);
-	while (lexer->c != '\'' && lexer->c != '\0' && lexer->c != ' ' && lexer->c != '<' && lexer->c != '>')
+	while (lexer->c != '\0' && lexer->c != ' ' && lexer->c != '<' && lexer->c != '>')
 	{
 		s = get_char_as_string(lexer);
 		value = ft_strjoin(value, s);
@@ -220,7 +221,8 @@ t_token *collect_red(t_lexer *lexer, int i)
 		if(lexer->c == '"' && lexer->c == '\'')
 			lexer_advance(lexer);
 	}
-	lexer_advance(lexer);
+	while (lexer->c == ' ')
+		lexer_advance(lexer); 
 	return(init_token(i, value));
 }
 
@@ -248,7 +250,6 @@ t_token *collect_apn_hrd(t_lexer *lexer, int i)
 
 t_token *get_next_token(t_lexer *lexer)
 {
-
 	while (lexer->c != '\0' && lexer->pos < ft_strlen(lexer->line))
 	{
 		if (lexer->c == ' ')
@@ -257,6 +258,11 @@ t_token *get_next_token(t_lexer *lexer)
 			return (collect_string(lexer));
 		else if(lexer->c == '\'')
 			return (collect_string_sngl(lexer));
+		else if (lexer->c == '|')
+		{
+			lexer->x += 1; 
+			return (advance_token(lexer, init_token(TOKEN_PIPE, get_char_as_string(lexer))));
+		}
 		else if (lexer->c == '<' )
 		{
 			lexer_advance(lexer);
@@ -271,10 +277,11 @@ t_token *get_next_token(t_lexer *lexer)
 				return(collect_apn_hrd(lexer, TOKEN_APPEND));
 			return (collect_red(lexer, TOKEN_REDOUT));
 		}
-		else if (lexer->c == '|')
-			return (advance_token(lexer, init_token(TOKEN_PIPE, get_char_as_string(lexer))));
 		else
+		{
+			lexer->nb_args[lexer->x] += 1;
 			return (collect_cmd(lexer));
+		}
 	}
 	return (NULL);
 }
