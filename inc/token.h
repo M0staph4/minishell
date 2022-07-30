@@ -6,7 +6,6 @@ typedef struct s_token
 {
     char *content;
     enum  {
-    TOKEN_ERR,
     TOKEN_STR,
     TOKEN_PIPE,
     TOKEN_REDIN,

@@ -1,7 +1,7 @@
 #include "../inc/header.h"
 #include "../inc/parser.h"
 
-t_redirection	*new_red(char *type, char *file)
+t_redirection	*new_red(int type, char *file)
 {
 	t_redirection	*new;
 
@@ -42,6 +42,7 @@ void	red_add_back(t_redirection **lst, t_redirection *new)
 		list = red_last(*lst);
 		list->next = new;
 	}
+
 }
 
 void	red_add_front(t_redirection **lst, t_redirection *new)

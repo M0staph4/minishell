@@ -5,6 +5,7 @@
 #include "lexer.h"
 #include "token.h"
 #include "parser.h"
+#include "execution.h"
 #include <stdio.h>
 #include <readline/readline.h>
 #include <readline/history.h>
