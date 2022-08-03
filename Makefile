@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -lreadline 
+CFLAGS = -Wall -Wextra -Werror -lreadline
 SRC = minishell.c lexer/lexer.c lexer/tokenizer.c parser/parser.c parser/redirections.c parser/parser_tools.c \
 		exec/builtins/exec_cd.c exec/execute.c exec/builtins/exec_pwd.c
 LIB = libft.a

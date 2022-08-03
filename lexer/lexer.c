@@ -248,7 +248,7 @@ t_token *collect_apn_hrd(t_lexer *lexer, int i)
 
 t_token *get_next_token(t_lexer *lexer)
 {
-	while (lexer->c != '\0' && lexer->pos < ft_strlen(lexer->line))
+	while (lexer->c != '\0')
 	{
 		if (lexer->c == ' ')
 			lexer_skip_whitespaces(lexer);
@@ -257,10 +257,7 @@ t_token *get_next_token(t_lexer *lexer)
 		else if(lexer->c == '\'')
 			return (collect_string_sngl(lexer));
 		else if (lexer->c == '|')
-		{
-			lexer->nb_pipe += 1;
 			return (advance_token(lexer, init_token(TOKEN_PIPE, get_char_as_string(lexer))));
-		}
 		else if (lexer->c == '<' )
 		{
 			lexer_advance(lexer);
@@ -268,7 +265,7 @@ t_token *get_next_token(t_lexer *lexer)
 				return(collect_apn_hrd(lexer, TOKEN_HEREDOC));
 			return (collect_red(lexer, TOKEN_REDIN));
 		}
-		else if (lexer->c == '>' )
+		else if (lexer->c == '>')
 		{
 			lexer_advance(lexer);
 			if(lexer->c == '>')
@@ -278,6 +275,8 @@ t_token *get_next_token(t_lexer *lexer)
 		else
 			return (collect_cmd(lexer));
 	}
+	if(!lexer->c)
+		return (collect_cmd(lexer));
 	return (NULL);
 }
 
@@ -300,7 +299,6 @@ t_token *collect_string(t_lexer *lexer)
 		lexer->cunt_arg += 1;
 	}
 	lexer_advance(lexer);
-	//free(s);
 	return(init_token(TOKEN_STR, value));
 }
 

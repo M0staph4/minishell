@@ -35,6 +35,7 @@ void	parser_add_back(t_parser *lst, t_parser *new)
 	t_parser	*list;
 
 	list = lst;
+	lst->next = NULL;
 	if (!lst)
 		lst = new;
 	else

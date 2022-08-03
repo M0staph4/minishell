@@ -45,6 +45,17 @@ void	lexing(char *line, t_token *token)
 				x++;
 				args[y] = NULL;
 				parser_add_back(parse, new_parse(args[0], args, red));
+				while ((*parse)->args[i])
+				{
+				printf("cmd %s \n", (*parse)->cmd);
+					printf("-----  %s\n",  (*parse)->args[i]);
+					i++;
+				}
+				while ((*parse)->red->next)
+				{
+					printf("%i  %s\n",  (*parse)->red->next->type, (*parse)->red->next->file);
+					(*parse)->red = (*parse)->red->next;
+				}
 				free_array(args);
 				y = 0;
 				args = (char **)malloc(sizeof(char *) * 10);
