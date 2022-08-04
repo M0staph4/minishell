@@ -24,11 +24,11 @@ void	red_add_front(t_redirection **lst, t_redirection *new);
 t_redirection	*red_last(t_redirection *lst);
 
 //parse 
-t_parser	*new_parse(char *cmd, char **args, t_redirection *red);
+t_parser	*new_parse(char **args, t_redirection *red);
 int	parse_size(t_parser *lst);
-void	parser_add_back(t_parser *lst, t_parser *new);
+void	parser_add_back(t_parser **lst, t_parser *new);
 void	parser_add_front(t_parser **lst, t_parser *new);
-t_parser	*parser_last(t_parser *lst);
+t_parser	*parser_last(t_parser **lst);
 void lexing(char *line, t_token *token);
 
 
