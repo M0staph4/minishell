@@ -37,15 +37,10 @@ int *count_args(char *line, t_token *token)
 			x = 0;
 			i++;
 			if(i == lexer->nb_pipe)
-			{
-				cnt_args[i] = '\0';
 				return(cnt_args);
-			}
 		}
 	}
-	printf("=----%d\n", lexer->nb_pipe);
-	cnt_args[i++] = x;
-	cnt_args[i] = '\0';
+	cnt_args[i] = x;
 	return(cnt_args);
 }
 
