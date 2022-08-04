@@ -257,7 +257,10 @@ t_token *get_next_token(t_lexer *lexer)
 		else if(lexer->c == '\'')
 			return (collect_string_sngl(lexer));
 		else if (lexer->c == '|')
+		{
+			lexer->nb_pipe += 1;
 			return (advance_token(lexer, init_token(TOKEN_PIPE, get_char_as_string(lexer))));
+		}
 		else if (lexer->c == '<' )
 		{
 			lexer_advance(lexer);
