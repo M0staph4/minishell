@@ -278,8 +278,7 @@ t_token *get_next_token(t_lexer *lexer)
 		else
 			return (collect_cmd(lexer));
 	}
-	if(!lexer->c)
-		return (collect_cmd(lexer));
+	
 	return (NULL);
 }
 
@@ -308,7 +307,6 @@ t_token *collect_string(t_lexer *lexer)
 char *get_char_as_string(t_lexer *lexer)
 {
 	char *str;
-
 	str = malloc(2);
 	str[0] = lexer->c;
 	str[1] = '\0';

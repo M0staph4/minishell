@@ -25,22 +25,24 @@ int *count_args(char *line, t_token *token)
 	i = 0;
 	x = 0;
 	lexer = init_lexer(line);
-	cnt_args = malloc(sizeof(int) * (lexer->nb_pipe + 1));
+	cnt_args = malloc(sizeof(int *) * (lexer->nb_pipe + 1));
 	while (lexer->c)
 	{
 		token = get_next_token(lexer);
 		if(token->type == TOKEN_STR)
 			x++;
-		if(token->type == TOKEN_PIPE)
+		if(token->type == TOKEN_PIPE || lexer->nb_pipe == 1)
 		{
 			cnt_args[i] = x;
 			x = 0;
 			i++;
 			if(i == lexer->nb_pipe)
+			{
+				cnt_args[i] = 0;
 				return(cnt_args);
+			}
 		}
 	}
-	cnt_args[i] = x;
 	return(cnt_args);
 }
 
