@@ -58,25 +58,23 @@ int *count_args(char *line, t_token *token)
 void	add_parse(t_parser *parse, char **args, int cnt_args, t_token *token, int y)
 {
 	t_redirection *red;
-	t_parser **parsee = malloc(sizeof(t_parser **));
 
 	red = malloc(sizeof(t_redirection) * 100);
 	if(token->type == TOKEN_PIPE)
 	{
 		args[y] = NULL;
-		parser_add_back(parsee, new_parse(args, red));
+		parser_add_back(&parse, new_parse(args, red));
 		free_array(args);
 		args = (char **)malloc(sizeof(char *) * (cnt_args + 1));
 	}
 	else if(token->type == TOKEN_STR)
 	{
 		args[y] = NULL;
-		parser_add_back(parsee, new_parse(args, red));
+		parser_add_back(&parse, new_parse(args, red));
 		free_array(args);
 	}
 	if(token->type == TOKEN_REDIN || token->type == TOKEN_REDOUT || token->type == TOKEN_APPEND)
 		red_add_back(&red, new_red(token->type, token->content));
-	parse = *parsee;
 }
 
 void	lexing(char *line, t_token *token)
