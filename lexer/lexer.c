@@ -46,10 +46,12 @@ int check_pipe(char *line)
 {
 	int i; 
 	i = 0;
-	if(line[0] == '|')
-		return(0);
-	if(line[ft_strlen(line)-1] == '|')
+	if(line[0] && line[ft_strlen(line) - 1] == '|')
 			return(0);
+	while(line[i] == ' ')
+		i++;
+	if(line[i] == '|')
+		return(0);
 	while(line[i])
 	{
 		if (line[i] == '|' && line[i + 1] == '|')
@@ -117,18 +119,6 @@ int ft_syntax_error(char *line)
 		return(0);
 	else
 		return(1);
-}
-
-int ft_count_pipe(char *line)
-{
-	int i;
-	int x;
-	i = -1;
-	x = 1;
-	while(line[++i])
-		if(line[i] == '|')
-			x++;
-	return(x);
 }
 
 t_lexer *init_lexer(char *line)
@@ -278,6 +268,8 @@ t_token *get_next_token(t_lexer *lexer)
 		else
 			return (collect_cmd(lexer));
 	}
+	if(!lexer->c)
+		return(collect_cmd(lexer));
 	
 	return (NULL);
 }

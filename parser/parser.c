@@ -31,44 +31,43 @@ int *count_args(char *line, t_token *token)
 		token = get_next_token(lexer);
 		if(token->type == TOKEN_STR)
 			x++;
-		if(token->type == TOKEN_PIPE || lexer->nb_pipe == 1)
+		if(token->type == TOKEN_PIPE)
 		{
 			cnt_args[i] = x;
-			x = 0;
 			i++;
-			if(i == lexer->nb_pipe)
-			{
-				cnt_args[i] = 0;
-				return(cnt_args);
-			}
+			x = 0;
 		}
 	}
+	if(lexer->nb_pipe == 1 || !lexer->c)
+		cnt_args[i++] = x;
+	cnt_args[i] = 0;
 	return(cnt_args);
 }
 
-void	add_parse(t_parser *parse, char **args, int cnt_args, t_token *token, int y, int p)
+void	add_parse(t_parser *parse, char **args, int cnt_args, t_token *token, int y, int p, char c)
 {
 	t_redirection *red;
-	(void) p;
 
 	red = malloc(sizeof(t_redirection) * 100);
+	if(token->type == TOKEN_REDIN || token->type == TOKEN_REDOUT || token->type == TOKEN_APPEND)
+		red_add_back(&red, new_red(token->type, token->content));
+	int x = 0;
+	while(args[x] )
+	{
+		printf("----f---%s---\n",args[x]);
+		x++;
+	}
 	if(token->type == TOKEN_PIPE)
 	{
 		args[y] = NULL;
 		parser_add_back(&parse, new_parse(args, red));
-		//free_array(args);
-		//if(y != p)
-			args = (char **)malloc(sizeof(char *) * (cnt_args + 1));
+		args = (char **)malloc(sizeof(char *) * (cnt_args + 1));
 	}
-	else if(token->type == TOKEN_STR)
+	if(p == 1 || !c)
 	{
 		args[y] = NULL;
-		
 		parser_add_back(&parse, new_parse(args, red));
-		free_array(args);
 	}
-	if(token->type == TOKEN_REDIN || token->type == TOKEN_REDOUT || token->type == TOKEN_APPEND)
-		red_add_back(&red, new_red(token->type, token->content));
 }
 
 void	lexing(char *line, t_token *token)
@@ -91,15 +90,24 @@ void	lexing(char *line, t_token *token)
 		while(lexer->c)
 		{
 			token = get_next_token(lexer);
+			if(token->type == TOKEN_STR)
+			{
+				args[y] = token->content;
+				y++;	
+			}
 			if(token->type == TOKEN_PIPE)
 			{
-				add_parse(parse, args, cnt_args[x], token, y, lexer->nb_pipe);
+				add_parse(parse, args, cnt_args[x], token, y, lexer->nb_pipe, lexer->c);
+				free_array(args);
 				x++;
 				y = 0;
 			}
-			if(token->type == TOKEN_STR)
-				args[y++] = token->content;
 		}
-		add_parse(parse, args, cnt_args[x], token, y, lexer->nb_pipe);
+		if(!lexer->c || lexer->nb_pipe == 1)
+		{
+			add_parse(parse, args, cnt_args[x], token, y, lexer->nb_pipe, lexer->c);
+			if(lexer->nb_pipe == 1)
+				free_array(args);
+		}
 	}
 }
