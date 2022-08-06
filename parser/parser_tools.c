@@ -1,19 +1,20 @@
 #include "../inc/header.h"
 #include "../inc/parser.h"
 
-t_parser	*new_parse(char **args, t_redirection *red)
+t_parser	*new_parse()
 {
 	t_parser	*new;
 
 	new = malloc(sizeof(t_parser));
 	if (!new)
 		return (0);
-	new->cmd = args[0];
-    new->args = args;
-	new->red = red;
+	new->cmd = NULL;
+    new->args = NULL;
+	new->red = NULL;
 	new->next = NULL;
 	return (new); 
 }
+
 
 int	parse_size(t_parser *lst)
 {
@@ -35,7 +36,6 @@ void	parser_add_back(t_parser **lst, t_parser *new)
 	t_parser	*list;
 
 	list = *lst;
-	(*lst)->next = NULL;
 	if (!*lst)
 		*lst = new;
 	else

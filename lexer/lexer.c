@@ -130,7 +130,6 @@ t_lexer *init_lexer(char *line)
 	lexer->line = line;
 	lexer->pos = 0;
 	lexer->cunt_arg = 0;
-	//lexer->nb_pipe = ft_count_pipe(lexer->line);
 	lexer->nb_pipe = 1;
 	lexer->c = lexer->line[lexer->pos];
 	return (lexer);
@@ -209,8 +208,6 @@ t_token *collect_red(t_lexer *lexer, int i)
 		if(lexer->c == '"' && lexer->c == '\'')
 			lexer_advance(lexer);
 	}
-	while (lexer->c == ' ')
-		lexer_advance(lexer); 
 	return(init_token(i, value));
 }
 
@@ -269,8 +266,7 @@ t_token *get_next_token(t_lexer *lexer)
 			return (collect_cmd(lexer));
 	}
 	if(!lexer->c)
-		return(collect_cmd(lexer));
-	
+		return(init_token(TOKEN_NULL, NULL));
 	return (NULL);
 }
 
