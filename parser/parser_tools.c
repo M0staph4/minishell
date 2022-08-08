@@ -1,15 +1,15 @@
 #include "../inc/header.h"
 #include "../inc/parser.h"
 
-t_parser	*new_parse()
+t_parser	*new_parse(char *cmd , char ** args )
 {
 	t_parser	*new;
 
 	new = malloc(sizeof(t_parser));
 	if (!new)
 		return (0);
-	new->cmd = NULL;
-    new->args = NULL;
+	new->cmd = ft_strdup(cmd);
+    new->args = args;
 	new->red = NULL;
 	new->next = NULL;
 	return (new); 
@@ -31,17 +31,21 @@ int	parse_size(t_parser *lst)
 	return (size);
 }
 
-void	parser_add_back(t_parser **lst, t_parser *new)
-{
-	t_parser	*list;
 
-	list = *lst;
-	if (!*lst)
-		*lst = new;
+void	parser_add_back(t_parser **alst, t_parser *new)
+{
+	t_parser	*n;
+
+	n = *alst;
+	if (!new)
+		return ;
+	if (!*alst)
+		(*alst) = new;
 	else
 	{
-		list = parser_last(lst);
-		list->next = new;
+		while (n->next)
+			n = n->next;
+		n->next = new;
 	}
 }
 

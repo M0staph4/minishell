@@ -1,13 +1,14 @@
 #include "../inc/header.h"
 
-void    redirection_in_from(t_redirection *red)
+int    redirection_in_from(t_redirection *red)
 {
-    int input;
-
-    input = open(red->file, O_RDONLY, 0777);
-    dup2(input, STDOUT_FILENO);
-    close(input);
-    //handle errors
+	if (mode == 1 && access(file, F_OK) == 0)
+		return (open(red->file, O_RDONLY, 0777));
+	else
+	{
+        perror("file");
+		return (-1);
+	}
 }
 
 void    redirection_out_to(t_redirection *red)
@@ -26,5 +27,4 @@ void    redirection_out_to(t_redirection *red)
         dup2(output, STDOUT_FILENO);
         close(output);
     }
-    //handle errors
 }

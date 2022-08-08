@@ -6,21 +6,8 @@ typedef struct s_lexer{
     char			c;
     char			*line;
     unsigned int	pos;
-    int q_pos;
-    int cunt_arg;
     int nb_pipe;
-    int *nb_args;
-    int x;
 } t_lexer;
-
-typedef struct s_parse{
-    char *cmd;
-    char *arg;
-    char *ops;
-    char *pipe;
-    char *red;
-    struct s_parse *next;
-}   t_parse;
 
 t_lexer *init_lexer(char *line);
 void	lexer_advance(t_lexer *lexer);

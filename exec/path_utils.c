@@ -13,34 +13,29 @@ void	free_array(char **array)
 	free(array);
 }
 
-char	**find_path(char **envp)
+char	**find_path(env_list *env)
 {
-	int		i;
-	char	**env_path;
 	char	**paths;
 
-	i = find_path_env(envp, "PATH=");
-	env_path = ft_split(envp[i], '=');
-	paths = ft_split(env_path[1], ':');
-	free_array(env_path);
+	paths = ft_split(find_path_env(env, "PATH="), ':');
 	return (paths);
 }
 
-int	find_path_env(char **envp, char *path)
+char *find_path_env(env_list *env, char *path)
 {
-	int	i;
+	env_list *temp;
 
-	i = 0;
-	while (envp[i])
+	temp = env;
+	while (temp)
 	{
-		if (!ft_strncmp(envp[i], path, 5))
-			return (i);
-		i++;
+		if (!ft_strncmp(temp->key, path, 5))
+			return (temp->content);
+		temp = temp->next;
 	}
-	return (0);
+	return (NULL);
 }
 
-char	*search(char **envp, char *cmd)
+char	*search(env_list *env, char *cmd)
 {
 	int		i;
 	char	**paths;
@@ -48,7 +43,7 @@ char	*search(char **envp, char *cmd)
 	char	*x2;
 
 	i = 0;
-	paths = find_path(envp);
+	paths = find_path(env);
 	while (paths[i])
 	{
 		x2 = ft_strjoin(paths[i], "/");

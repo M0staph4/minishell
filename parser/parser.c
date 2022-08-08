@@ -35,40 +35,32 @@ char **add_args_to_list(char **args, t_token *token)
 	int count;
 
 	count = count_args(args);
-	i = 0;
+	i = -1;
 	new_args = malloc(sizeof(char *) * (count + 2));
-	while(i < count)
-	{
+	while(++i < count)
 		new_args[i] = args[i];
-		i++;
-	}
 	free(args);
 	new_args[i++] = token->content;
 	new_args[i] = NULL;
 	return (new_args);
 }
 
-void add_parse(t_token *token, t_parser **parse)
+void add_parse(t_parser *parse, char *cmd, char **args)
 {
-	if(token->type == TOKEN_STR)
-	{
-		if(!(*parse)->cmd)
-			(*parse)->cmd = ft_strdup(token->content);
-		(*parse)->args = add_args_to_list((*parse)->args, token);
-	}
-	if(token->type == TOKEN_PIPE)
-	{
-		parser_add_back(parse, new_parse());
-		(*parse) = (*parse)->next;
-	}
-	
+	t_parser *tmp;
+
 }
 
 void lexing(char *line, t_token *token)
 {
 	t_lexer *lexer;
 	t_parser *parse;
-	parse = new_parse();
+	t_parser *tmp;
+	char *cmd;
+	char **arg;
+	cmd = NULL;
+	arg = NULL;
+	parse = NULL;
 	
 	lexer = init_lexer(line);
 	if(lexer)
@@ -76,7 +68,29 @@ void lexing(char *line, t_token *token)
 		while (lexer->c)
 		{
 			token = get_next_token(lexer);
-			add_parse(token, &parse);
+			if(token->type == TOKEN_STR)
+			{
+				if(!cmd)
+					cmd = ft_strdup(token->content);
+				arg = add_args_to_list(arg , token);
+			}
+			else if (token->type == TOKEN_PIPE)
+			{
+				tmp = new_parse(cmd , arg);
+				parser_add_back(&parse, tmp);
+				cmd = NULL;
+				arg = NULL;
+			}
 		}
+		if(!lexer->c)
+		{
+			tmp = new_parse(cmd , arg);
+			parser_add_back(&parse, tmp);
+		}
+		// while(parse)
+		// {
+		// 	printf("%s\n", parse->cmd);
+		// 	parse = parse->next;
+		// }
 	}
 }

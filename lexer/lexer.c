@@ -129,7 +129,6 @@ t_lexer *init_lexer(char *line)
 	add_history(line);
 	lexer->line = line;
 	lexer->pos = 0;
-	lexer->cunt_arg = 0;
 	lexer->nb_pipe = 1;
 	lexer->c = lexer->line[lexer->pos];
 	return (lexer);
@@ -286,7 +285,6 @@ t_token *collect_string(t_lexer *lexer)
 		lexer_advance(lexer);
 		if(lexer->c == '"' && lexer->c == '\'' && lexer->c == ' ' && lexer->c != '\0')
 			lexer_advance(lexer);
-		lexer->cunt_arg += 1;
 	}
 	lexer_advance(lexer);
 	return(init_token(TOKEN_STR, value));

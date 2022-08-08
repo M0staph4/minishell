@@ -1,8 +1,8 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -lreadline  -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -lreadline -fsanitize=address -g
 SRC = minishell.c lexer/lexer.c lexer/tokenizer.c parser/parser.c parser/redirections.c parser/parser_tools.c \
-		exec/builtins/exec_cd.c exec/execute.c exec/builtins/exec_pwd.c
+		
 LIB = libft.a
 
 # This is a minimal set of ANSI/VT100 color codes
