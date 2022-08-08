@@ -16,6 +16,12 @@ typedef struct s_redirection
     struct s_redirection *next;
 } t_redirection;
 
+typedef struct s_vr_tools
+{
+    char *cmd;
+    char **args;
+}   t_vr_tools;
+
 //redirections
 t_redirection	*new_red(int type, char *file);
 int             red_size(t_redirection *lst);
