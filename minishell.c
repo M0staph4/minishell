@@ -36,6 +36,7 @@ int main(int ac, char **av, char **envp)
 			lexing(line, &token);
 		else
 			printf("SYNTAX ERROR\n");
+		add_history(line);
 	}
 	return (0);
 }

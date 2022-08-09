@@ -55,7 +55,7 @@ t_parser *add_parse(t_parser *parse, t_token *token, char c, t_vr_tools *tools, 
 			tools->cmd = ft_strdup(token->content);
 		tools->args = add_args_to_list(tools->args , token);
 	}
-	if(token->type == TOKEN_PIPE || !c)
+	else if(token->type == TOKEN_PIPE || !c)
 	{
 		tmp = new_parse(tools->cmd , tools->args, redirection);
 		parser_add_back(&parse, tmp);

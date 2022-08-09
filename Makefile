@@ -1,7 +1,7 @@
 NAME = minishell
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -lreadline -fsanitize=address -g
-SRC = minishell.c lexer/lexer.c lexer/tokenizer.c parser/parser.c parser/redirections.c parser/parser_tools.c \
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -lreadline -fsanitize=address -fno-omit-frame-pointer
+SRC = minishell.c lexer/lexer.c lexer/collect_lexer.c lexer/lexer_tools.c lexer/syntax.c lexer/tokenizer.c parser/parser.c parser/redirections.c parser/parser_tools.c \
 		
 LIB = libft.a
 

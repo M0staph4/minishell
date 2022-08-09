@@ -15,7 +15,6 @@ t_parser	*new_parse(char *cmd , char ** args , t_redirection *redirection)
 	return (new); 
 }
 
-
 int	parse_size(t_parser *lst)
 {
 	int	size;
