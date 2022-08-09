@@ -5,7 +5,7 @@ t_redirection	*new_red(int type, char *file)
 {
 	t_redirection	*new;
 
-	new = malloc(sizeof(t_redirection) * 1);
+	new = malloc(sizeof(t_redirection));
 	if (!new)
 		return (0);
 	new->type = type;
@@ -13,7 +13,6 @@ t_redirection	*new_red(int type, char *file)
 	new->next = NULL;
 	return (new);
 }
-
 
 int	red_size(t_redirection *lst)
 {
@@ -32,17 +31,19 @@ int	red_size(t_redirection *lst)
 
 void	red_add_back(t_redirection **lst, t_redirection *new)
 {
-	t_redirection	*list;
+	t_redirection	*n;
 
-	list = *lst;
+	n = *lst;
+	if (!new)
+		return ;
 	if (!*lst)
-		*lst = new;
+		(*lst) = new;
 	else
 	{
-		list = red_last(*lst);
-		list->next = new;
+		while (n->next)
+			n = n->next;
+		n->next = new;
 	}
-
 }
 
 void	red_add_front(t_redirection **lst, t_redirection *new)

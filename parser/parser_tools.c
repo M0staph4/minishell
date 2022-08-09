@@ -1,7 +1,7 @@
 #include "../inc/header.h"
 #include "../inc/parser.h"
 
-t_parser	*new_parse(char *cmd , char ** args )
+t_parser	*new_parse(char *cmd , char ** args , t_redirection *redirection)
 {
 	t_parser	*new;
 
@@ -10,7 +10,7 @@ t_parser	*new_parse(char *cmd , char ** args )
 		return (0);
 	new->cmd = ft_strdup(cmd);
     new->args = args;
-	new->red = NULL;
+	new->red = redirection;
 	new->next = NULL;
 	return (new); 
 }
