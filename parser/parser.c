@@ -45,17 +45,16 @@ char **add_args_to_list(char **args, t_token *token)
 	return (new_args);
 }
 
-t_parser *add_parse(t_parser *parse, t_token *token, char c, t_vr_tools *tools, t_redirection *redirection)
+t_parser *add_parse(t_parser *parse, t_token *token, t_vr_tools *tools, t_redirection *redirection)
 {
 	t_parser *tmp;
-	
 	if(token->type == TOKEN_STR)
 	{
 		if(!tools->cmd)
 			tools->cmd = ft_strdup(token->content);
 		tools->args = add_args_to_list(tools->args , token);
 	}
-	else if(token->type == TOKEN_PIPE || !c)
+	else if(token->type == TOKEN_PIPE)
 	{
 		tmp = new_parse(tools->cmd , tools->args, redirection);
 		parser_add_back(&parse, tmp);
@@ -73,7 +72,7 @@ t_redirection *add_red_to_list(t_token *token, t_redirection *redirection)
 	return(redirection);
 }
 
-void lexing(char *line, t_token *token)
+t_parser *lexing(char *line, t_token *token)
 {
 	t_lexer *lexer;
 	t_parser *parse;
@@ -85,14 +84,37 @@ void lexing(char *line, t_token *token)
 	tools.cmd = NULL;
 	tools.args = NULL;
 	lexer = init_lexer(line);
+	int x = 0;
 	if(lexer)
 	{
 		while (lexer->c)
 		{
 			token = get_next_token(lexer);
-			if(token->type == TOKEN_REDIN || token->type == TOKEN_REDOUT || token->type == TOKEN_APPEND)
-				redirection = add_red_to_list(token, redirection);
-			parse = add_parse(parse, token, lexer->c, &tools, redirection);
+			if(token)
+			{
+				x++;
+				if(token->type == TOKEN_REDIN || token->type == TOKEN_REDOUT || token->type == TOKEN_APPEND)
+					redirection = add_red_to_list(token, redirection);
+				parse = add_parse(parse, token, &tools, redirection);
+			}
 		}
+		if(x && !lexer->c)
+			parser_add_back(&parse, new_parse(tools.cmd, tools.args, redirection));
 	}
+	int i;
+	while(parse)
+	{
+		i = -1;
+		if(parse->cmd)
+			printf("cmd : %s\n", parse->cmd);
+		while(parse->args[++i])
+			printf("args : %s\n", parse->args[i]);
+		while(parse->red)
+		{
+			printf("red : %s\n", parse->red->file);
+			parse->red = parse->red->next;
+		}
+		parse = parse->next;
+	}
+	return(parse);
 }

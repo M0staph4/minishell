@@ -36,7 +36,7 @@ int	parse_size(t_parser *lst);
 void	parser_add_back(t_parser **lst, t_parser *new);
 void	parser_add_front(t_parser **lst, t_parser *new);
 t_parser	*parser_last(t_parser **lst);
-void lexing(char *line, t_token *token);
+t_parser *lexing(char *line, t_token *token);
 
 
 #endif

@@ -6,6 +6,7 @@ typedef struct s_lexer{
     char			c;
     char			*line;
     unsigned int	pos;
+    int nb_pipe;
 } t_lexer;
 
 t_lexer *init_lexer(char *line);

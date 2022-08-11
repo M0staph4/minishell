@@ -12,6 +12,7 @@ t_lexer *init_lexer(char *line)
 	lexer = malloc(sizeof(t_lexer));
 	lexer->line = line;
 	lexer->pos = 0;
+	lexer->nb_pipe = 1;
 	lexer->c = lexer->line[lexer->pos];
 	return (lexer);
 }
@@ -27,7 +28,10 @@ t_token *get_next_token(t_lexer *lexer)
 		else if(lexer->c == '\'')
 			return (collect_string_sngl(lexer));
 		else if (lexer->c == '|')
+		{
+			lexer->nb_pipe += 1;
 			return (advance_token(lexer, init_token(TOKEN_PIPE, get_char_as_string(lexer))));
+		}
 		else if (lexer->c == '<')
 		{
 			lexer_advance(lexer);
@@ -45,6 +49,6 @@ t_token *get_next_token(t_lexer *lexer)
 		else
 			return (collect_cmd(lexer));
 	}
-	return(init_token(TOKEN_NULL, NULL));
+	return(NULL);
 }
 
