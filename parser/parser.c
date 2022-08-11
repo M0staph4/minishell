@@ -90,7 +90,6 @@ t_parser *lexing(char *line, t_token *token)
 		while (lexer->c)
 		{
 			token = get_next_token(lexer);
-			printf("(type: %d, content: %s)\n",token->type, token->content);
 			if(token)
 			{
 				x = 1;
