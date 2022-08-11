@@ -20,6 +20,7 @@ typedef struct s_vr_tools
 {
     char *cmd;
     char **args;
+    t_redirection *red;
 }   t_vr_tools;
 
 //redirections

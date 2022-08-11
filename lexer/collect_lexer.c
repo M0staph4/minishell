@@ -94,7 +94,7 @@ t_token *collect_string(t_lexer *lexer)
 	value[0] = '\0';
 	while (lexer->c == '"')
 		lexer_advance(lexer);
-	while (lexer->c != '"' && lexer->c != '\0')
+	while (lexer->c != '"' && lexer->c != ' ' && lexer->c != '\0' )
 	{
 		s = get_char_as_string(lexer);
 		value = ft_strjoin(value, s);
