@@ -1,4 +1,2 @@
-
-'file'"a'"
-
-echo '>'
+'e'c"h"'o'>'file'a'>'>|a>>file2
+echo $USER...$USER"$USER'"

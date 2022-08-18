@@ -34,8 +34,6 @@ int main(int ac, char **av, char **envp)
 		line = readline("minishell: ");
 		if(ft_syntax_error(line))
 			lexing(line, &token);
-		else
-			printf("SYNTAX ERROR\n");
 		add_history(line);
 	}
 	return (0);

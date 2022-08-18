@@ -54,15 +54,17 @@ int check_pipe(char *line)
 		return(0);
 	while(line[i])
 	{
-		if (line[i] == '|' && line[i + 1] == '|')
-			return(0);
 		if(line[i] == '|')
 		{
+			if (line[i] == '|' && line[i + 1] == '|')
+				return(0);
 			if(check_second_pipe(line, i) == -1)
 				return(0);
 			else
 				i = check_second_pipe(line, i);
 		}
+		if(line[i] == '\'' || line[i] == '"')
+			i = find_second_one(line, i);
 		i++;
 	}
 	return(1);
@@ -91,7 +93,9 @@ int check_red(char *line)
 	i = 0;
 	while(line[i])
 	{
-		if ((line[i] == '<' || line[i] == '>') && (line[i - 1] != '\'' && line[i - 1] != '"'))
+		if((line[i] == '>' && line[i + 1] == '|') || (line[i] == '<' && line[i + 1] == '|'))
+				return(0);
+		if (line[i] && (line[i] == '<' || line[i] == '>'))
 		{
 			i++;
 			if(!line[i] || !line[i + 1])
@@ -100,7 +104,11 @@ int check_red(char *line)
 				return(0);
 			if(line[i] == '>' && line[i + 1] == '>')
 				return(0);
+			if((line[i] == '>' && line[i + 1] == '|') || (line[i] == '<' && line[i + 1] == '|'))
+				return(0);
 		}
+		if(line[i] == '\'' || line[i] == '"')
+			i = find_second_one(line, i);
 		i++;
 	}
 	return(1);
@@ -108,15 +116,26 @@ int check_red(char *line)
 
 int ft_syntax_error(char *line)
 {
-	int i;
-
-	i = 0;
+	if (!line)
+	{
+		write(1, "exit\n", 6);
+		exit(0);
+	}
 	if(!check_quotes(line))
-			return(0);
-	if(!check_pipe(line))
+	{
+		printf("Quotes: syntax error\n");
 		return(0);
-	if(!check_red(line))
+	}
+	else if(!check_pipe(line))
+	{
+		printf("Pipe: syntax error\n");
 		return(0);
+	}
+	else if(!check_red(line))
+	{
+		printf("syntax error\n");
+		return(0);
+	}
 	else
 		return(1);
 }

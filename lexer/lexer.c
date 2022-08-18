@@ -26,7 +26,7 @@ t_token *get_next_token(t_lexer *lexer)
 		else if (lexer->c == '"')
 			return (collect_string(lexer));
 		else if(lexer->c == '\'')
-			return (collect_string_sngl(lexer));
+			return (collect_string(lexer));
 		else if (lexer->c == '|')
 		{
 			lexer->nb_pipe += 1;
