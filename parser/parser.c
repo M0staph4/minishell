@@ -92,7 +92,7 @@ t_parser *lexing(char *line, t_token *token)
 			token = get_next_token(lexer);
 			if(token)
 			{
-				printf("(type %d, content %s)\n", token->type, token->content);
+				printf("(type %d, content %s) |%zu|\n", token->type, token->content, ft_strlen(token->content));
 				x = 1;
 				if(token->type == TOKEN_REDIN || token->type == TOKEN_REDOUT || token->type == TOKEN_APPEND)
 					tools.red = add_red_to_list(token, &tools);

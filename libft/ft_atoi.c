@@ -1,34 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmoutawa <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/25 18:02:13 by mmoutawa          #+#    #+#             */
-/*   Updated: 2021/11/27 20:41:16 by mmoutawa         ###   ########.fr       */
+/*   Created: 2021/11/25 17:53:33 by mmoutawa          #+#    #+#             */
+/*   Updated: 2021/11/25 17:53:42 by mmoutawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
 
-char	*ft_strdup(const char *s1)
+int	ft_atoi(const char *str)
 {
-	char	*dst;
-	int		i;
-	int		j;
+	int	x;
+	int	y;
+	int	z;
 
-	i = 0;
-	j = 0;
-	while (s1[i] != '\0')
-		i++;
-	dst = (char *)malloc(i + 1);
-	if (dst == NULL)
-		return (NULL);
-	while (s1[j] != '\0')
+	x = 0;
+	y = 0;
+	z = 1;
+	while (str [x] && (str [x] == '\n' || str [x] == '\t' || str[x] == '\r'
+			|| str[x] == '\f' || str [x] == '\v' || str[x] == ' '))
+		x++;
+	if ((str[x] == '-' || str[x] == '+'))
 	{
-		dst[j] = s1[j];
-		j++;
+		if (str[x] == '-')
+			z = -z;
+		x++;
 	}
-	dst[j] = '\0';
-	return (dst);
+	while (str[x] && (str[x] >= '0' && str[x] <= '9'))
+	{
+		y = y * 10 + str[x] - '0';
+		x++;
+	}
+	return (z * y);
 }
