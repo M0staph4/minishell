@@ -1,5 +1,5 @@
 NAME = minishell
-CC = cc
+CC = gcc
 CFLAGS = -Wall -Wextra -Werror -lreadline -fsanitize=address -g
 SRC = minishell.c lexer/lexer.c lexer/tokenizer.c parser/parser.c parser/redirections.c parser/parser_tools.c \
 		exec/builtins/exec_env.c exec/builtins/exec_cd.c exec/builtins/exec_pwd.c exec/pipeline_execution.c exec/path_utils.c \

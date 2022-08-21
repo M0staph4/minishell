@@ -56,6 +56,8 @@ t_parser *add_parse(t_parser *parse, t_token *token, t_vr_tools *tools)
 	{
 		tmp = new_parse(tools->cmd , tools->args, tools->red);
 		parser_add_back(&parse, tmp);
+		free(tools->cmd);
+		free_array(tools->args);
 		tools->red = NULL;
 		tools->cmd = NULL;
 		tools->args = NULL;
