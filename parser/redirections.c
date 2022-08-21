@@ -1,5 +1,4 @@
 #include "../inc/header.h"
-#include "../inc/parser.h"
 
 t_redirection	*new_red(int type, char *file)
 {

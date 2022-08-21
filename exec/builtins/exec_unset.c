@@ -1,51 +1,56 @@
 #include "../../inc/header.h"
 
-int     check_key(env_list **env, char *key)
+//unset $HME:
+//  not enough arguments
+
+// void    delete_env(t_env_list **env,  char *key)
+// {
+//     t_env_list    *current;
+//     t_env_list    *temp;
+
+//     current = (*env);
+   
+// }
+
+void    exec_unset(t_env_list **env, t_parser *parser)
 {
-    env_list    *temp;
+    t_env_list    *current;
+    t_env_list    *temp;
+	int i = 1;
 
-    temp = (*env);
-    while (temp)
+    current = *env;
+    if (!parser->args[i])
+        return ;
+    while (parser->args[i])
     {
-        if (!ft_strncmp(temp->key, key, ft_strlen(key)))
-            return (0);
-        temp = temp->next
-    }
-    return (1);
-}
-
-void    delete_env(env_list **env,  char *key)
-{
-    env_list    *current;
-    env_list    *temp;
-    int i = 0;
-
-    current = (*env);
-    if (!ft_strncmp((*env)->key, key, ft_strlen(key)))
-    {
-            temp = *env;
-            env= env->next;
-            free(temp);
-    }
-    else
-    {
-        while (current->next)
+        if (check_key(parser->args[i]))
         {
-            if (!ft_strncmp(current->next->key, key, ft_strlen(key)))
+            if (!ft_strncmp((*env)->key, parser->args[i], ft_strlen(parser->args[i])))
             {
-                temp = current->next;
-                current->next = current->next->next;
-                free(temp);
+                    temp = (*env);
+                    (*env) = (*env)->next;
+                    free(temp);
             }
-            current = current->next;
+            else
+            {
+                while (current->next)
+                {
+                    if (!ft_strncmp(current->next->key, parser->args[i], ft_strlen(parser->args[i]) + 1))
+                    {
+                        temp = current->next;
+	    				if (current->next->next)
+                        	current->next = current->next->next;
+	    				else 
+	    				{
+	    					current->next = NULL;
+	    					break;
+	    				}
+                        free(temp);
+                    }
+                    current = current->next;
+                }
+            }
         }
+        i++;
     }
-}
-
-void    exec_unset(env_list *env, char *key)
-{
-    if (!check_key(env, key))
-        delete_env(env, key);
-    else
-        printf("\n");
 }

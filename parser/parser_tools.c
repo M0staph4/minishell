@@ -1,5 +1,4 @@
 #include "../inc/header.h"
-#include "../inc/parser.h"
 
 t_parser	*new_parse(char *cmd , char ** args , t_redirection *redirection)
 {

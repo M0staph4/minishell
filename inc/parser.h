@@ -1,27 +1,9 @@
 #ifndef PARSER_H
 #define PARSER_H
+#include "header.h"
+#include "struct.h"
 
-typedef struct s_parser
-{
-    char *cmd;
-    char **args;
-    struct s_redirection *red;
-    struct s_parser *next;
-} t_parser;
 
-typedef struct s_redirection
-{
-    int    type;
-    char    *file;
-    struct s_redirection *next;
-} t_redirection;
-
-typedef struct s_vr_tools
-{
-    char *cmd;
-    char **args;
-    t_redirection *red;
-}   t_vr_tools;
 
 //redirections
 t_redirection	*new_red(int type, char *file);
@@ -37,7 +19,7 @@ int	parse_size(t_parser *lst);
 void	parser_add_back(t_parser **lst, t_parser *new);
 void	parser_add_front(t_parser **lst, t_parser *new);
 t_parser	*parser_last(t_parser **lst);
-t_parser *lexing(char *line, t_token *token);
+t_parser *lexing(char *line, t_token *token, t_env_list *env);
 
 
 #endif

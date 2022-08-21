@@ -3,36 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoutawa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cel-mhan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/25 17:53:33 by mmoutawa          #+#    #+#             */
-/*   Updated: 2021/11/25 17:53:42 by mmoutawa         ###   ########.fr       */
+/*   Created: 2021/11/14 02:38:31 by cel-mhan          #+#    #+#             */
+/*   Updated: 2021/11/16 21:24:44 by cel-mhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
+
+//skipe white spaces
+static int	spaces(char c)
+{
+	if (c == '\f' || c == '\t' || c == '\n' || c == '\v' || c == '\r')
+		return (1);
+	if (c == ' ')
+		return (1);
+	return (0);
+}
 
 int	ft_atoi(const char *str)
 {
-	int	x;
-	int	y;
-	int	z;
+	unsigned long	res;
+	int				sign;
+	int				i;
 
-	x = 0;
-	y = 0;
-	z = 1;
-	while (str [x] && (str [x] == '\n' || str [x] == '\t' || str[x] == '\r'
-			|| str[x] == '\f' || str [x] == '\v' || str[x] == ' '))
-		x++;
-	if ((str[x] == '-' || str[x] == '+'))
-	{
-		if (str[x] == '-')
-			z = -z;
-		x++;
-	}
-	while (str[x] && (str[x] >= '0' && str[x] <= '9'))
-	{
-		y = y * 10 + str[x] - '0';
-		x++;
-	}
-	return (z * y);
+	res = 0;
+	sign = 1;
+	i = 0;
+	while (spaces(str[i]))
+		i++;
+	if (str[i] == '-')
+		sign = -1;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	while ((str[i] >= '0') && (str[i] <= '9'))
+		res = res * 10 + ((int)str[i++] - '0');
+	if (res > 2147483648 && sign == -1)
+		return (0);
+	if (res > 2147483647 && sign != -1)
+		return (-1);
+	return (res * sign);
 }

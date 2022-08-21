@@ -1,0 +1,13 @@
+cd
+pwd
+env
+echo
+exit errors
+
+to do
+fix cd without exit
+unset
+// OLDPWD for cd
+heredoc
+leaks
+> s

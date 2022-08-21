@@ -1,9 +1,4 @@
-#include "../inc/lexer.h"
 #include "../inc/header.h"
-#include "../inc/token.h"
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 
 char *join_to_join(t_lexer *lexer, char c)
 {
@@ -31,7 +26,7 @@ char *add_value(char *value)
 	i = 0;
 	while(value[i])
 	{
-		if(value[i] == 2)
+		if(value[i] >= 1 && value[i] <= 5)
 			j++;
 		i++;
 	}
@@ -40,7 +35,7 @@ char *add_value(char *value)
 	j = 0;
 	while(value[i])
 	{
-		if(value[i] != 2)
+		if(value[i] >= 6)
 			s[j++] = value[i];
 		i++;
 	}
@@ -49,7 +44,35 @@ char *add_value(char *value)
 	return(s);
 }
 
-t_token *collect_cmd(t_lexer *lexer)
+char *add_dolar(t_lexer *lexer)
+{
+	char *value;
+	char *s;
+
+	value = ft_strdup("");
+	lexer_advance(lexer);
+	if(ft_isalpha(lexer->c) || lexer->c == '_')
+	{
+		while (lexer->c != ' ' && lexer->c != '\0' && lexer->c != '|' && lexer->c != '>' && lexer->c != '<' && lexer->c != '$')
+		{
+			s = get_char_as_string(lexer);
+			value = ft_strjoin(value, s);
+			lexer_advance(lexer);
+		}
+	}
+	return(value);
+}
+
+char *add_dolar_token(char *dolar, t_env_list *env)
+{
+	if(get_env(&env, dolar))
+	{
+		return(get_env(&env, dolar));
+	}else
+		return(NULL);
+}
+
+t_token *collect_cmd(t_lexer *lexer, t_env_list *env)
 {
 	char *value;
 	char *s;
@@ -57,6 +80,10 @@ t_token *collect_cmd(t_lexer *lexer)
 
 	join = ft_strdup("");
 	value = ft_strdup("");
+	if(lexer->c == '$')
+		value = add_dolar(lexer);
+	if(add_dolar_token(value, env))
+		return(init_token(TOKEN_STR, add_dolar_token(value, env)));
 	while (lexer->c != ' ' && lexer->c != '\0' && lexer->c != '|' && lexer->c != '>' && lexer->c != '<')
 	{
 		if(lexer->c != '"' && lexer->c != '\'')
@@ -69,8 +96,8 @@ t_token *collect_cmd(t_lexer *lexer)
 		{
 			join = ft_strjoin(join, join_to_join(lexer, lexer->c));
 			value = ft_strjoin(value, join);
+			free(join);
 		}
-		free(join);
 	}
 	value = add_value(value);
 	return(init_token(TOKEN_STR, value));

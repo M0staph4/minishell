@@ -1,6 +1,4 @@
 #include "../inc/header.h"
-#include "../inc/parser.h"
-#include "../inc/token.h"
 
 void free_array(char **args)
 {
@@ -73,7 +71,7 @@ t_redirection *add_red_to_list(t_token *token, t_vr_tools *tools)
 	return(tools->red);
 }
 
-t_parser *lexing(char *line, t_token *token)
+t_parser *lexing(char *line, t_token *token, t_env_list *env)
 {
 	t_lexer *lexer;
 	t_parser *parse;
@@ -89,10 +87,9 @@ t_parser *lexing(char *line, t_token *token)
 	{
 		while (lexer->c)
 		{
-			token = get_next_token(lexer);
+			token = get_next_token(lexer, env);
 			if(token)
 			{
-				printf("(type %d, content %s) |%zu|\n", token->type, token->content, ft_strlen(token->content));
 				x = 1;
 				if(token->type == TOKEN_REDIN || token->type == TOKEN_REDOUT || token->type == TOKEN_APPEND)
 					tools.red = add_red_to_list(token, &tools);

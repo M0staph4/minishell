@@ -1,9 +1,4 @@
-#include "../inc/lexer.h"
 #include "../inc/header.h"
-#include "../inc/token.h"
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 
 int find_second_one(char *line, int pos)
 {

@@ -1,9 +1,4 @@
-#include "../inc/lexer.h"
 #include "../inc/header.h"
-#include "../inc/token.h"
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
 
 void	lexer_advance(t_lexer *lexer)
 {

@@ -1,9 +1,5 @@
-#include "../inc/lexer.h"
 #include "../inc/header.h"
-#include "../inc/token.h"
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+
 
 t_lexer *init_lexer(char *line)
 {
@@ -17,7 +13,7 @@ t_lexer *init_lexer(char *line)
 	return (lexer);
 }
 
-t_token *get_next_token(t_lexer *lexer)
+t_token *get_next_token(t_lexer *lexer, t_env_list *env)
 {
 	while (lexer->c != '\0')
 	{
@@ -47,7 +43,7 @@ t_token *get_next_token(t_lexer *lexer)
 			return (collect_red(lexer, TOKEN_REDOUT));
 		}
 		else
-			return (collect_cmd(lexer));
+			return (collect_cmd(lexer, env));
 	}
 	return(NULL);
 }

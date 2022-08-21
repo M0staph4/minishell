@@ -3,54 +3,67 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoutawa <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cel-mhan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/25 18:05:51 by mmoutawa          #+#    #+#             */
-/*   Updated: 2021/11/27 20:47:57 by mmoutawa         ###   ########.fr       */
+/*   Created: 2021/11/14 02:41:28 by cel-mhan          #+#    #+#             */
+/*   Updated: 2021/11/19 02:28:44 by cel-mhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
-int	ft_char(char c, char const *set)
+static int	firstone(char	*str, char	*set)
 {
-	int		i;
+	size_t	i;
+	size_t	j;
 
+	j = 0;
 	i = 0;
-	while (set[i] != '\0')
+	while (set[i])
 	{
-		if (set[i] == c)
-			return (1);
+		while (str[j] == set[i])
+		{
+			j++;
+			i = 0;
+		}
 		i++;
 	}
-	return (0);
+	return (j);
 }
 
-char	*ft_str(char const *s1, char const *set)
+static int	lastone(char	*str, char	*set)
 {
-	size_t	x;
-	size_t	start;
+	size_t	i;
 	size_t	len;
 
-	x = 0;
-	len = ft_strlen(s1) - 1;
-	while (ft_char(s1[x], set) != 0)
-		x++;
-	if (x == len + 1)
-		return (ft_strdup (""));
-	start = x;
-	while (ft_char (s1[len], set) != 0)
-		len--;
-	return (ft_substr(s1, start, len - start + 1));
+	i = 0;
+	len = ft_strlen(str) - 1;
+	while (set[i])
+	{
+		while (str[len] == set[i])
+		{
+			len--;
+			i = 0;
+		}
+		i++;
+	}
+	return (len);
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char const	*s1, char const	*set)
 {
-	char	*p;
-	char	*j;
+	int		last;
+	int		first;
+	int		len;
 
-	if (!s1 || !set)
+	if (!s1)
 		return (NULL);
-	j = (char *) set;
-	p = ft_str(s1, set);
-	return (p);
+	if (!set)
+		return ((char *)s1);
+	first = firstone((char *)s1, (char *)set);
+	if ((size_t)first >= ft_strlen((char *)s1))
+		return (ft_strdup(""));
+	last = lastone((char *)s1, (char *)set);
+	len = last - first + 1;
+	return (ft_substr(s1, first, len));
 }
