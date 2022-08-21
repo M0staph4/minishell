@@ -20,9 +20,9 @@ t_token *get_next_token(t_lexer *lexer, t_env_list *env)
 		if (lexer->c == ' ')
 			lexer_skip_whitespaces(lexer);
 		else if (lexer->c == '"')
-			return (collect_string(lexer));
+			return (collect_string(lexer, env));
 		else if(lexer->c == '\'')
-			return (collect_string(lexer));
+			return (collect_string(lexer, env));
 		else if (lexer->c == '|')
 		{
 			lexer->nb_pipe += 1;
