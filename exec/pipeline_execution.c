@@ -91,6 +91,7 @@ void execute_last_cmd(t_parser *parser, t_env_list *env, int write_in)
 		redirections(parser->red, parser->cmd);
 		execute(parser, path, envp, env);
 		exit(exit_code);
+		exit(0);
 	}
 }
 void	launch_child(t_parser *parser, t_env_list *env, int write_in, int *end)
@@ -108,6 +109,8 @@ void	launch_child(t_parser *parser, t_env_list *env, int write_in, int *end)
 	close(end[WRITE]);
 	redirections(parser->red, parser->cmd);
 	execute_child(parser, path, envp, env);
+			exit(0);
+
 }
 
 void    pipeline_execution(t_parser *parser, t_env_list **envp)
