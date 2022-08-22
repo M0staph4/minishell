@@ -1,6 +1,7 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -lreadline -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -lreadline -fsanitize=address -g 
+RDLINE = -lreadline -L/Users/mmoutawa/goinfre/.brew/opt/readline/lib -I /Users/mmoutawa/goinfre/.brew/opt/readline/include
 SRC = minishell.c lexer/lexer.c lexer/tokenizer.c parser/parser.c parser/redirections.c parser/parser_tools.c \
 		exec/builtins/exec_env.c exec/builtins/exec_cd.c exec/builtins/exec_pwd.c exec/pipeline_execution.c exec/path_utils.c \
 		lexer/collect_lexer.c lexer/lexer_tools.c lexer/syntax.c exec/redirection_execution.c exec/builtins/exec_export.c \
@@ -26,7 +27,7 @@ $(LIB):
 
 $(NAME): $(SRC) $(LIB)
 	@echo "${_BOLD}${_GREEN}---------Minishell Compilation---------${_END}"
-	$(CC) $(CFLAGS) $(SRC) -o $(NAME) $(LIB)
+	$(CC) $(CFLAGS) $(RDLINE) $(SRC) -o $(NAME) $(LIB)
 clean:
 	@echo "${_BOLD}${_RED}---------Cleaning Objects---------${_END}"
 	rm -rf $(OBJ)

@@ -99,13 +99,6 @@ t_token *collect_cmd(t_lexer *lexer, t_env_list *env)
 
 	join = ft_strdup("");
 	value = ft_strdup("");
-	if(lexer->c == '$')
-	{
-		join = add_dolar(lexer);
-		if(add_dolar_token(join, env))
-			value = ft_strjoin(value, add_dolar_token(join, env));
-		free(join);
-	}
 	while (lexer->c != ' ' && lexer->c != '\0' && lexer->c != '|' && lexer->c != '>' && lexer->c != '<')
 	{
 		if(lexer->c != '"' && lexer->c != '\'')
@@ -198,7 +191,7 @@ t_token *collect_apn_hrd(t_lexer *lexer, int i)
 	return(init_token(i, value));
 }
 
-t_token *collect_string(t_lexer *lexer, t_env_list *env)
+char *add_dolar_and_after_q(t_lexer *lexer, t_env_list *env)
 {
 	char *value;
 	char *join;
@@ -206,7 +199,8 @@ t_token *collect_string(t_lexer *lexer, t_env_list *env)
 
 	join = ft_strdup("");
 	value = ft_strdup("");
-	while (lexer->c != '|' && lexer->c != '>' && lexer->c != '<' && lexer->c != '\0' && lexer->c != ' ')
+
+	while(lexer->c != '|' && lexer->c != '>' && lexer->c != '<' && lexer->c != '\0' && lexer->c != ' ')
 	{
 		if(lexer->c == '$')
 		{
@@ -219,6 +213,30 @@ t_token *collect_string(t_lexer *lexer, t_env_list *env)
 		{
 			s = get_char_as_string(lexer);
 			value = ft_strjoin(value, s);
+		}
+		lexer_advance(lexer);
+	}
+	return(value);
+}
+
+t_token *collect_string(t_lexer *lexer, t_env_list *env)
+{
+	char *value;
+	char *demo;
+	char *join;
+
+	join = ft_strdup("");
+	value = ft_strdup("");
+	demo = NULL;
+	while (lexer->c != '|' && lexer->c != '>' && lexer->c != '<' && lexer->c != '\0' && lexer->c != ' ')
+	{
+		
+		if((lexer->c == '$') || (lexer->c != '"' && lexer->c != '\''))
+			demo = add_dolar_and_after_q(lexer, env);
+		if(demo)
+		{
+			value = ft_strjoin(value, demo);
+			free(demo);
 		}
 		if(lexer->c == '"' || lexer->c == '\'')
 		{
