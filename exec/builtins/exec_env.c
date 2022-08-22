@@ -44,16 +44,14 @@ int	env_size(t_env_list **env)
 	}
 	return (size);
 }
-
 char **t_env_list_to_char(t_env_list **env)
 {
 	t_env_list *tmp;
-	char **envp;
+	char **envp = malloc (sizeof(char *) * env_size(env));
 	int i;
 
 	tmp = (*env);
 	i = 0;
-	envp = malloc (sizeof(char *) * (env_size(env) + 1));
 	while (tmp)
 	{
 		envp[i] = ft_strjoin(tmp->key, tmp->separator);
@@ -61,7 +59,6 @@ char **t_env_list_to_char(t_env_list **env)
 		tmp = tmp->next;
 		i++;
 	}
-	envp[i] = NULL;
 	return (envp);
 }
 
@@ -98,6 +95,23 @@ void	env_add_back(t_env_list **lst, t_env_list *new)
 
 }
 
+t_env_list    **read_env(char **envp)
+{
+    t_env_list    **env;
+    char        **tmp;
+    int         i;
+
+    i = 0;
+	env = malloc(sizeof(t_env_list *));
+    while(envp[i])
+    {
+        tmp = ft_split(envp[i], '=');
+        env_add_back(env, new_env(tmp[0], tmp[1], "="));
+		i++;
+    }
+    return (env);
+}
+
 t_env_list    *env_builder(char **envp)
 {
     char        **tmp;
@@ -123,13 +137,13 @@ void exec_env(t_parser *parse, t_env_list **envp)
 	if (parse->args[1])
 	{
 		printf("env: %s: No such file or directory\n", parse->args[1]);
-		exit_code = 127;
 		return ;
 	}
+	
 	while (env)
 	{
-		if (env->separator && env->content)
-			printf("%s%s%s\n", env->key, env->separator, env->content);
+		
+		printf("%s%s%s\n", env->key, env->separator, env->content);
 		env = env->next;
 	}
 }

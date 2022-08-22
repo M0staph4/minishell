@@ -1,19 +1,18 @@
 #ifndef EXECUTIONS_H
 #define EXECUTIONS_H
 
-#include "header.h"
-
 #define WRITE 1
 #define  READ 0
 
+
 //builtins
-int     exec_cd(char *path, t_env_list *env);
+void    exec_cd(char *path, t_env_list *env);
 void    exec_echo(t_parser *parser);
 void    exec_env(t_parser *parse, t_env_list **envp);
 void    exec_exit(t_parser *parser);
 void    exec_export(t_parser *parse, t_env_list **envp);
 void    exec_pwd(void);
-void    exec_unset(t_env_list **env, t_parser *parser);
+void    exec_unset(t_env_list **env, char *key);
 
 //t_env_list
 t_env_list	*env_last(t_env_list *lst);
@@ -25,8 +24,6 @@ int         env_size(t_env_list **env);
 t_env_list    *env_builder(char **envp);
 int         search_env(t_env_list  **env, char *key);
 char        *get_env(t_env_list  **env, char *key);
-int         check_doube(t_env_list **env, char *key);
-
 
 //export
 void    set_export(t_env_list *env,  char **args);
@@ -40,16 +37,15 @@ void    delete_env(t_env_list **env,  char *key);
 int     ft_count_elems(char **str);
 
 
-void	exec_builtins(t_parser **parse);
-void    pipeline_execution(t_parser *parser, t_env_list **envp);
-void    redirections(t_redirection *red, char *cmd);
+void	exec_builtins(t_parser **parse,  t_env_list **env);
+void    pipeline_execution(t_parser *parser, t_env_list **envp, int file);
+void    redirections(t_redirection *red, char *cmd, int file);
+
 
 char	*search(char **env, char *cmd);
 char	**find_path(char **envp);
 int	    find_path_env(char **envp, char *path);
 void	free_array(char **array);
-
-
-void    heredoc();
+int     heredoc(t_parser **parse);
 
 #endif

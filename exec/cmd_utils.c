@@ -10,6 +10,7 @@ void	check_acess(char *path)
 		ft_putstr_fd("You have write access\n", 2);
 }
 
+
 int	open_file(char *cmd, char *file, int mode)
 {
 	if (mode == 1 && access(file, F_OK) == 0)

@@ -1,13 +1,15 @@
-cd
-pwd
-env
-echo
-exit errors
 
 to do
-fix cd without exit
-unset
-// OLDPWD for cd
-heredoc
-leaks
-> s
+exit code
+cat /dev/random | head  -c 100 | wc -c
+
+
+test:
+ cat | cat | sleep 5 | cat | head -c 10 | cat >> hello1
+
+
+
+
+
+
+ while do; leaks minishell; sleep 2; clear; done;

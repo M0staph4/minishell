@@ -6,7 +6,7 @@ int main(int ac, char **av, char **envp)
 	t_token		token;
 	t_parser	*parse;
 	t_env_list	*env;
-
+	int hdc;
 	env = env_builder(envp);
 	char *line;
 	(void) ac;
@@ -20,8 +20,10 @@ int main(int ac, char **av, char **envp)
 			parse = NULL;
 		add_history(line);
 		if(parse)
-			pipeline_execution(parse, &env);
-		//system("leaks minishell");
+		{
+			hdc = heredoc(&parse);
+			pipeline_execution(parse, &env, hdc);
+		}
 	}
 	return (0);
 }
