@@ -6,4 +6,5 @@ void    exec_pwd(void)
 
     getcwd(buf, sizeof(buf));
     printf("%s\n", buf);
+    exit(0);
 }

@@ -37,7 +37,7 @@ void    delete_env(t_env_list **env,  char *key);
 int     ft_count_elems(char **str);
 
 
-void	exec_builtins(t_parser **parse,  t_env_list **env);
+void 	exec_builtins(t_parser *parser, t_env_list *env);
 void    pipeline_execution(t_parser *parser, t_env_list **envp, int file);
 void    redirections(t_redirection *red, char *cmd, int file);
 

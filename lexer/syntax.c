@@ -82,28 +82,54 @@ int	check_quotes(char *line)
 	return(1);
 }
 
+int check_after_red(char *line, int i)
+{
+	i++;
+	while(line[i] == ' ')
+		i++;
+	if(line[i] == '>' || line[i] == '<' || line[i] == '|')
+			return(-1);
+	else if(!line[i])
+		return(-1);
+	while(!ft_isalpha(line[i]) && ft_isalnum(line[i]))
+	{
+		if(line[i] == '>' || line[i] == '<' || line[i] == '|')
+			return(-1);
+		i++;
+	}
+	return(i);
+}
+
 int check_red(char *line)
 {
 	int i;
+	int y;
+	y = 0;
 	i = 0;
 	while(line[i])
 	{
-		if((line[i] == '>' && line[i + 1] == '|') || (line[i] == '<' && line[i + 1] == '|'))
-				return(0);
 		if (line[i] && (line[i] == '<' || line[i] == '>'))
 		{
-			i++;
-			if(!line[i] || !line[i + 1])
-				return(0); 
-			if((line[i] == '<' && line[i + 1] == '<'))
-				return(0);
-			if(line[i] == '>' && line[i + 1] == '>')
-				return(0);
-			if((line[i] == '>' && line[i + 1] == '|') || (line[i] == '<' && line[i + 1] == '|'))
+
+			if (line[i] == '>' && line[i + 1] == '>')
+				i = check_after_red(line, i + 1);
+			else if(line[i] == '<' && line[i + 1] == '<')
+				i = check_after_red(line, i + 1);
+			else if(line[i] == '<')
+				i = check_after_red(line, i);
+			else if(line[i] == '>')
+				i = check_after_red(line, i);
+			if(i == -1)
 				return(0);
 		}
 		if(line[i] == '\'' || line[i] == '"')
+		{
+			y = i;
 			i = find_second_one(line, i);
+			if(y + 1 == i)
+				return(0);
+		}
+		
 		i++;
 	}
 	return(1);

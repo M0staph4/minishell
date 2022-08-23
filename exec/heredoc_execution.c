@@ -6,7 +6,7 @@ char *random_file()
     char		*tmp_file;
 
     random += 2;
-    tmp_file = ft_strjoin("tmp/", ft_itoa(random));
+    tmp_file = ft_strjoin("/dev/null", ft_itoa(random));
     return (tmp_file); 
 }
 
@@ -16,11 +16,9 @@ int    heredoc(t_parser **parse)
     char *buff;
     t_parser *parser;
     t_redirection *red;
+	tmp_file = -1;
 
     parser = *parse;
-    tmp_file = open(random_file(), O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (tmp_file < 0)
-		tmp_file *= -1;
     while (parser)
     {
         red = parser->red; 
@@ -29,6 +27,9 @@ int    heredoc(t_parser **parse)
             if (red->type == TOKEN_HEREDOC)
             {
                 buff = readline("heredoc> ");
+    			tmp_file = open(random_file(), O_WRONLY | O_CREAT | O_TRUNC, 0777);
+				if (tmp_file < 0)
+					tmp_file *= -3;
                 while((ft_strncmp(red->file, buff, ft_strlen(buff))))
                 {
                     buff = readline("heredoc> ");
