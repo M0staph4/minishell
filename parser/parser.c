@@ -92,10 +92,7 @@ t_parser *lexing(char *line, t_token *token, t_env_list *env)
 			{
 				x = 1;
 				if(token->type == TOKEN_REDIN || token->type == TOKEN_REDOUT || token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC)
-				{
-					printf("entered %d\n", token->type);
 					tools.red = add_red_to_list(token, &tools);
-				}
 				parse = add_parse(parse, token, &tools);
 			}
 		}
