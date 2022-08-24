@@ -6,11 +6,11 @@ int main(int ac, char **av, char **envp)
 	t_token		token;
 	t_parser	*parse;
 	t_env_list	*env;
-	int			hdc;
+	int hdc;
+	env = env_builder(envp);
 	char *line;
 	(void) ac;
 	(void) av;
-	env = env_builder(envp);
 	while ("everything is okey")
 	{
 		line = readline("minishell: ");

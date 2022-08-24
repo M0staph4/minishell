@@ -110,7 +110,6 @@ int check_red(char *line)
 	{
 		if (line[i] && (line[i] == '<' || line[i] == '>'))
 		{
-
 			if (line[i] == '>' && line[i + 1] == '>')
 				i = check_after_red(line, i + 1);
 			else if(line[i] == '<' && line[i + 1] == '<')
@@ -123,13 +122,7 @@ int check_red(char *line)
 				return(0);
 		}
 		if(line[i] == '\'' || line[i] == '"')
-		{
-			y = i;
 			i = find_second_one(line, i);
-			if(y + 1 == i)
-				return(0);
-		}
-		
 		i++;
 	}
 	return(1);

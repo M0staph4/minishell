@@ -1,10 +1,10 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -lreadline #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -lreadline -fsanitize=address -g
 SRC = minishell.c lexer/lexer.c lexer/tokenizer.c parser/parser.c parser/redirections.c parser/parser_tools.c \
-		exec/builtins/exec_env.c exec/builtins/exec_cd.c exec/builtins/exec_pwd.c exec/pipeline_execution.c exec/path_utils.c \
-		lexer/collect_lexer.c lexer/lexer_tools.c lexer/syntax.c exec/redirection_execution.c exec/builtins/exec_export.c \
-		exec/builtins/exec_echo.c exec/builtins/exec_unset.c exec/builtins/exec_exit.c exec/heredoc_execution.c
+		exec/builtins/exec_env.c exec/builtins/exec_cd.c exec/builtins/exec_pwd.c exec/pipeline.c exec/path_utils.c \
+		lexer/collect_lexer.c lexer/lexer_tools.c lexer/syntax.c exec/redirections.c exec/builtins/exec_export.c \
+		exec/builtins/exec_echo.c exec/builtins/exec_unset.c exec/builtins/exec_exit.c exec/heredoc.c
 LIB = libft.a
 
 # This is a minimal set of ANSI/VT100 color codes

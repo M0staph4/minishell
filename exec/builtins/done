@@ -2,10 +2,14 @@
 to do
 exit code
 cat /dev/random | head  -c 100 | wc -c
-
+cat | > ff
 
 test:
 echo hhh | echo lll
 env | grep HOME
 echo lol > lol 
 echo lol > lol | echo Lolo >> lol
+
+heredoc: cat << eof 
+'E'Cho -n a
+//cd case: cd fddfss --> OLDPWD

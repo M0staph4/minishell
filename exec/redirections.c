@@ -40,7 +40,7 @@ void    redirections(t_redirection *red, char *cmd, int file)
 {
     int output = -1;
     int input = -2;
-
+(void)file;
     if (!red)
         return ;
     while (red)
@@ -50,11 +50,7 @@ void    redirections(t_redirection *red, char *cmd, int file)
         else if (red->type == TOKEN_HEREDOC)
             input = file;
         else if (red->type == TOKEN_APPEND || red->type == TOKEN_REDOUT)
-        {
-            if (file != -1)
-                input = file;
             output = redirection_out_to(red);
-        }
         if  (!red->next || !cmd)
             dup_redirections(input, output);
         red = red->next;

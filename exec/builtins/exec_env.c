@@ -4,13 +4,11 @@ char *get_env(t_env_list  **env, char *key)
 {
     t_env_list *tmp;
 
-	tmp = *env;
+    tmp = *env;
     while (tmp)
     {
         if (!ft_strncmp(tmp->key, key, (ft_strlen(key) + 1)))
-		{
             return (tmp->content);
-		}
         tmp = tmp->next;
     }
 	return (NULL);
@@ -49,7 +47,7 @@ int	env_size(t_env_list **env)
 char **t_env_list_to_char(t_env_list **env)
 {
 	t_env_list *tmp;
-	char **envp = malloc (sizeof(char *) * env_size(env));
+	char **envp = malloc (sizeof(char *) * (env_size(env) + 1));
 	int i;
 
 	tmp = (*env);
@@ -61,6 +59,7 @@ char **t_env_list_to_char(t_env_list **env)
 		tmp = tmp->next;
 		i++;
 	}
+	envp[i] = NULL;
 	return (envp);
 }
 
