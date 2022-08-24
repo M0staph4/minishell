@@ -7,6 +7,6 @@ void    exec_pwd(t_env_list *env)
     if (getcwd(buf, sizeof(buf)))
         printf("%s\n", buf);
     else
-        printf("%s\n", get_env(&env, "OLDPWD"));
+        printf("%s\n", get_env(&env, "PWD"));
     exit(0);
 }

@@ -8,6 +8,25 @@ int	ft_isalnumdash(int c)
 	return (0);
 }
 
+size_t	ft_strnchr(const char *s, int c)
+{
+	size_t	i;
+	char	*s1;
+	size_t	len;
+
+	s1 = (char *)s;
+	len = ft_strlen(s1) + 1;
+	i = 0;
+	while (i < len)
+	{
+		if (*s1 == (char)c)
+			return (i);
+		s1++;
+		i++;
+	}
+	return (0);
+}
+
 int	check_doube(t_env_list **env, char *key)
 {
 	char **tmp;
@@ -15,21 +34,29 @@ int	check_doube(t_env_list **env, char *key)
 	tmp  = ft_split(key, '=');
 	if (search_env(env, tmp[0]))
 		return (1);
+	else if (ft_strnchr(tmp[0], '+') == ft_strlen(tmp[0]) - 1)
+	{
+		tmp[0] = ft_substr(tmp[0], 0, ft_strlen(tmp[0]) -1);
+		if (search_env(env, tmp[0]))
+			return (2);
+	}
 	return (0);
 }
 
 int	check_key(char *key)
 {
     int i;
+	char **keys;
 
     i = 1;
-    if (ft_isalpha(key[0]) || key[0] == '_')
+	keys = ft_split(key, '=');
+    if (ft_isalpha(keys[0][0]) || keys[0][0] == '_')
     {
-        while(key[i])
+        while(keys[0][i])
         {
-            if (!ft_isalnumdash(key[i]))
+            if (!ft_isalnumdash(keys[0][i]))
             {
-                printf("export: %s: not a valid identifier\n", key);
+                printf("export: %s: not a valid identifier\n", keys[0]);
 				exit_code = 1;
                 return (0);
             }
@@ -52,6 +79,26 @@ t_env_list	*env_last(t_env_list *lst)
 	while (lst->next)
 		lst = lst->next;
 	return (lst);
+}
+
+void append_value(t_env_list  **env, char *key, char *value)
+{
+	t_env_list *tmp;
+
+    tmp = *env;
+	key = ft_substr(key, 0, ft_strlen(key) -1);
+    while (tmp)
+    {
+        if (!ft_strncmp(tmp->key, key, (ft_strlen(key) + 1)))
+		{
+			tmp->separator = "=";
+			if (!tmp->content)
+				tmp->content = value;
+			else
+            	tmp->content = ft_strjoin(tmp->content, value);
+		}
+        tmp = tmp->next;
+    }
 }
 
 void    replace_value(t_env_list  **env, char *key, char *value)
@@ -101,7 +148,10 @@ void set_export(t_env_list *env,  char **args)
 		else
 		{
 			temp = ft_split(args[i], '=');
-			replace_value(&env, temp[0], temp[1]);
+			if (check_doube(&env, args[i]) == 1)
+				replace_value(&env, temp[0], temp[1]);
+			else if (check_doube(&env, args[i]) == 2)
+				append_value(&env, temp[0], temp[1]);
 		}
         i++;
     }

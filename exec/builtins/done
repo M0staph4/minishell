@@ -2,7 +2,8 @@
 to do
 exit code
 cat /dev/random | head  -c 100 | wc -c
-cat | > ff
+done : cat | > ff
+cat | cat | ls
 
 test:
 echo hhh | echo lll
@@ -12,4 +13,3 @@ echo lol > lol | echo Lolo >> lol
 
 heredoc: cat << eof 
 'E'Cho -n a
-//cd case: cd fddfss --> OLDPWD

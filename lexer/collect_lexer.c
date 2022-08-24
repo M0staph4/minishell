@@ -114,7 +114,7 @@ t_token *collect_red(t_lexer *lexer, int i, t_env_list *env)
 	return(init_token(i, value));
 }
 
-t_token *collect_apn_hrd(t_lexer *lexer, int i)
+t_token *collect_apn_hrd(t_lexer *lexer, int i, t_env_list *env)
 {
 	char *value;
 	char *s;
@@ -122,6 +122,9 @@ t_token *collect_apn_hrd(t_lexer *lexer, int i)
 
 	join = ft_strdup("");
 	value = ft_strdup("");
+	lexer_advance(lexer);
+	if(i == TOKEN_APPEND)
+		return(collect_red(lexer, i, env));
 	while (lexer->c == ' ')
 		lexer_advance(lexer);
 	while (lexer->c != '\0' && lexer->c != ' ' && lexer->c != '<' && lexer->c != '>' && lexer->c != '|')
@@ -147,7 +150,9 @@ t_token *collect_string(t_lexer *lexer, t_env_list *env)
 {
 	char *value;
 	char *join;
+	int i;
 
+	i = 0;
 	join = ft_strdup("");
 	value = ft_strdup("");
 	while (lexer->c != '|' && lexer->c != '>' && lexer->c != '<' && lexer->c != '\0' && lexer->c != ' ')
@@ -155,12 +160,15 @@ t_token *collect_string(t_lexer *lexer, t_env_list *env)
 		value = add_all(value, lexer->c, lexer, env);
 		if(lexer->c == '"' || lexer->c == '\'')
 		{
+			i = 1;
 			join = join_to_join(lexer, lexer->c, env);
 			if(join)
 				value = ft_strjoin(value, join);
 			free(join);
 		}
-		lexer_advance(lexer);
+		if(!sp_c(lexer->c) || i)
+			lexer_advance(lexer);
+		i = 0;
 	}
 	value = add_value(value);
 	return(init_token(TOKEN_STR, value));

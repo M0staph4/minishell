@@ -18,7 +18,7 @@
 #include <limits.h>
 #include <ctype.h>
 #include "struct.h"
-
+#include "sys/stat.h"
 
 #define ERROR 0
 #define MALLOC_ERR 1

@@ -1,17 +1,5 @@
 #include "../../inc/header.h"
 
-//unset $HME:
-//  not enough arguments
-
-// void    delete_env(t_env_list **env,  char *key)
-// {
-//     t_env_list    *current;
-//     t_env_list    *temp;
-
-//     current = (*env);
-   
-// }
-
 void    exec_unset(t_env_list **env, char *key)
 {
     t_env_list    *current;
