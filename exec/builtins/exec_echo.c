@@ -5,6 +5,8 @@ int compare(char *arg)
     int i;
 
     i = 1;
+    if (arg[1] == '\0')
+        return (0);
     while (arg[i])
     {
         if (arg[i] != 'n')
@@ -16,11 +18,8 @@ int compare(char *arg)
 
 int check_echo(char *args)
 {
-    if (args[0] == '-')
-    {
-        if (compare(args))
-            return (1);
-    }
+    if (args[0] == '-' && compare(args))
+        return (1);
     return (0);
 }
 
@@ -40,7 +39,7 @@ void print_args(char **args)
             }
             else
                 printf("%s", args[i]);
-            if (args[i + 1] != '\0')
+            if (args[i + 1] != NULL)
                 printf(" ");
         }
         i++;
@@ -61,7 +60,7 @@ void print_without_option(char **args)
         }
         else
             printf("%s", args[i]);
-        if (args[i + 1] != '\0')
+        if (args[i + 1] != NULL)
             printf(" ");
         i++;
     }
@@ -76,5 +75,5 @@ void    exec_echo(t_parser *parser)
         print_args(parser->args);
     else
         print_without_option(parser->args);
-    exit(0);
+    exit_code = 0;
 }

@@ -56,6 +56,7 @@ char *add_dolar(t_lexer *lexer)
 	{
 		s = get_char_as_string(lexer);
 		value = ft_strjoin(value, s);
+		free(s);
 		lexer_advance(lexer);
 	}
 	return(value);
@@ -79,7 +80,6 @@ char *add_dolar_and_after_q(t_lexer *lexer, t_env_list *env)
 	char *join;
 	char *s;
 
-	join = ft_strdup("");
 	value = ft_strdup("");
 	while(!sp_c(lexer->c) || lexer->c == '$')
 	{
@@ -94,6 +94,7 @@ char *add_dolar_and_after_q(t_lexer *lexer, t_env_list *env)
 		{
 			s = get_char_as_string(lexer);
 			value = ft_strjoin(value, s);
+			free(s);
 			lexer_advance(lexer);
 		}
 	}

@@ -34,9 +34,8 @@ char *add_all(char *old_value, char c, t_lexer *lexer, t_env_list *env)
 {
 	char *value;
 	char *demo;
-	char *join;
+	char *v = NULL;
 
-	join = ft_strdup("");
 	value = ft_strdup("");
 	demo = NULL;
 	if((c == '$') || (c != '"' && c != '\''))
@@ -47,8 +46,14 @@ char *add_all(char *old_value, char c, t_lexer *lexer, t_env_list *env)
 		free(demo);
 	}
 	if(value)
-		value = ft_strjoin(old_value, value);
+	{
+		v = ft_strjoin(old_value, value);
+		free(value);
+	}
 	else
+	{
+		free(value);
 		return(old_value);
-	return(value);
+	}
+	return(v);
 }

@@ -1,28 +1,23 @@
 #include "../inc/header.h"
 
-int heredoc_implementation(char *delim)
+void heredoc_implementation(char *delim, int end)
 {
     char *buff;
-    int end[2];
 
     buff = NULL;
-    pipe(end);
     while((ft_strncmp(delim, buff, ft_strlen(delim))))
     {
-        buff = readline("heredoc> ");
+        buff = readline("> ");
         if ((ft_strncmp(delim, buff, ft_strlen(delim))))
-            ft_putendl_fd(buff, end[WRITE]);
+            ft_putendl_fd(buff, end);
     }
-                close(end[WRITE]);
-
-    return (end[READ]);
 }
-int    heredoc(t_parser **parse)
+
+void    heredoc(t_parser **parse)
 {
     t_parser *parser;
     t_redirection *red;
-    int             end;
-
+    int end[2];
     parser = *parse;
     while (parser)
     {
@@ -30,10 +25,14 @@ int    heredoc(t_parser **parse)
         while(red)
         {
             if (red->type == TOKEN_HEREDOC)
-               end =  heredoc_implementation(red->file);
+            {
+                pipe(end);
+                heredoc_implementation(red->file, end[WRITE]);
+                red->end = end[READ];
+                close(end[WRITE]);
+            }
             red = red->next;
         }
         parser = parser->next;
     }
-	return (end);
 } 

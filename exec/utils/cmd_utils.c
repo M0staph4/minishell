@@ -1,4 +1,4 @@
-#include "../inc/header.h"
+#include "../../inc/header.h"
 
 void	check_acess(char *path)
 {
@@ -23,4 +23,18 @@ int	open_file(char *cmd, char *file, int mode)
 		ft_putstr_fd(": No such file or directory", 2);
 		return (-1);
 	}
+}
+
+void	dup_end(int end, int dup_fd)
+{
+	dup2(end, dup_fd);
+	close(end);
+}
+
+void	close_pipe(int *end, int fd_in)
+{
+	if (end[WRITE] > 2)
+		close(end[WRITE]);
+	if (fd_in != STDIN_FILENO)
+		close(fd_in);
 }

@@ -6,13 +6,27 @@
 /*   By: mmoutawa <mmoutawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/14 03:12:51 by cel-mhan          #+#    #+#             */
-/*   Updated: 2022/08/24 22:23:25 by mmoutawa         ###   ########.fr       */
+/*   Updated: 2022/08/27 04:55:59 by mmoutawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+// static char	*ft_strcpy(char *dst, const char *src)
+// {
+// 	size_t	i;
+
+// 	i = 0;
+// 	while (src[i])
+// 	{
+// 		dst[i] = src[i];
+// 		i++;
+// 	}
+// 	dst[i] = '\0';
+// 	return (dst);
+// }
+
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*result;
 	int i;
@@ -31,5 +45,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 			result[i++] = s2[j++];
 	}
 	result[i] = '\0';
+	//free(s1);
 	return (result);
 }

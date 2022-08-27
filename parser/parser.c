@@ -10,7 +10,7 @@ void free_array(char **args)
 		free(args[i]);
 		i++;
 	}
-	free(args);
+	free(args[i]);
 }
 
 int count_args(char **args)
@@ -37,7 +37,6 @@ char **add_args_to_list(char **args, t_token *token)
 	new_args = malloc(sizeof(char *) * (count + 2));
 	while(++i < count)
 		new_args[i] = args[i];
-	free(args);
 	new_args[i++] = token->content;
 	new_args[i] = NULL;
 	return (new_args);
@@ -94,10 +93,12 @@ t_parser *lexing(char *line, t_token *token, t_env_list *env)
 				if(token->type == TOKEN_REDIN || token->type == TOKEN_REDOUT || token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC)
 					tools.red = add_red_to_list(token, &tools);
 				parse = add_parse(parse, token, &tools);
+				free(token);
 			}
 		}
 		if(x && !lexer->c)
 			parser_add_back(&parse, new_parse(tools.cmd, tools.args, tools.red));
+		free(lexer);
 	}
 	return(parse);
 }

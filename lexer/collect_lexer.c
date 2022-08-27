@@ -9,7 +9,6 @@ char *join_to_join(t_lexer *lexer, char c, t_env_list *env)
 
 	q = 0;
 	value = ft_strdup("");
-	join = ft_strdup("");
 	if(c == '"')
 		q = 1;
 	lexer_advance(lexer);
@@ -26,6 +25,7 @@ char *join_to_join(t_lexer *lexer, char c, t_env_list *env)
 		{
 			s = get_char_as_string(lexer);
 			value = ft_strjoin(value, s);
+			free(s);
 			lexer_advance(lexer);
 		}
 	}
@@ -38,7 +38,6 @@ char *add_all_in_value(char *old_value, char c, t_lexer *lexer, t_env_list *env)
 	char *s;
 	char *join;
 
-	join = ft_strdup("");
 	value = ft_strdup("");
 	if(c != '"' && c != '\'')
 	{
@@ -53,10 +52,12 @@ char *add_all_in_value(char *old_value, char c, t_lexer *lexer, t_env_list *env)
 		{
 			s = get_char_as_string(lexer);
 			value = ft_strjoin(value, s);
+			free(s);
 		}
 	}
-	value = ft_strjoin(old_value, value);
-	return (value);
+	join = ft_strjoin(old_value, value);
+	free(value);
+	return (join);
 }
 
 t_token *collect_cmd(t_lexer *lexer, t_env_list *env)
@@ -67,7 +68,6 @@ t_token *collect_cmd(t_lexer *lexer, t_env_list *env)
 	i = 0;
 
 	value = ft_strdup("");
-	join = ft_strdup("");
 	while (lexer->c != ' ' && lexer->c != '\0' && lexer->c != '|' && lexer->c != '>' && lexer->c != '<')
 	{
  		value = add_all_in_value(value, lexer->c, lexer, env);
@@ -153,7 +153,6 @@ t_token *collect_string(t_lexer *lexer, t_env_list *env)
 	int i;
 
 	i = 0;
-	join = ft_strdup("");
 	value = ft_strdup("");
 	while (lexer->c != '|' && lexer->c != '>' && lexer->c != '<' && lexer->c != '\0' && lexer->c != ' ')
 	{

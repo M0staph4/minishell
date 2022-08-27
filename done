@@ -1,15 +1,23 @@
 
-to do
-exit code
-cat /dev/random | head  -c 100 | wc -c
+# to do
+# exit code
+# cat << eof > l | cat << eof >> l
+# free leaks
+# pipe leaks
 
-
+done : 
+cat | > ff
+pwd | cd
+pwd | env
 test:
- cat | cat | sleep 5 | cat | head -c 10 | cat >> hello1
+echo hhh | echo lll
+env | grep HOME
+echo lol > lol | echo Lolo >> lol
+cat /dev/random | head  -c 100 | wc -c
+'E'Cho -n a
 
-
-
-
-
-
- while do; leaks minishell; sleep 2; clear; done;
+export:
+identifier: 1
+event: 0
+exit -1
+permission denied

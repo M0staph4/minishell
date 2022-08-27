@@ -22,6 +22,7 @@ typedef struct s_parser
 {
     char *cmd;
     char **args;
+    int  flag;
     struct s_redirection *red;
     struct s_parser *next;
 } t_parser;
@@ -30,6 +31,7 @@ typedef struct s_redirection
 {
     int    type;
     char    *file;
+    int     end;
     struct s_redirection *next;
 } t_redirection;
 

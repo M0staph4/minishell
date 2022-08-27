@@ -5,6 +5,8 @@ int is_numeric(char *ar)
     int i;
 
     i = 0;
+    if (ar[0] == '-')
+        i++;
     while (ar[i])
     {
         if (ar[i] < '0' || ar[i] > '9')
@@ -16,8 +18,27 @@ int is_numeric(char *ar)
 
 void    exec_exit(t_parser *parser)
 {
+     if (!parser->args[1])
+     {
+        ft_putendl_fd("exit", 1);
+        exit(0);
+     }
     if (parser->args[2])
-        ft_putendl_fd("exit: too many arguments", 2);
-    if (!is_numeric(parser->args[1]))
-        ft_putendl_fd("exit: numeric argument required", 2);
+    {
+        ft_putendl_fd("exit\nexit: too many arguments", 2);
+        exit_code = 1;
+    }
+    else if (!is_numeric(parser->args[1]))
+    {
+        ft_putendl_fd("exit\nexit: numeric argument required", 2);
+        exit_code = 255;
+        exit(exit_code);
+    }
+    else
+    {
+        printf("here");
+        exit_code = ft_atoi(parser->args[1]);
+        ft_putendl_fd("exit", 1);
+        exit(exit_code);
+    }
 }

@@ -143,11 +143,13 @@ int ft_syntax_error(char *line)
 	else if(!check_pipe(line))
 	{
 		printf("Pipe: syntax error\n");
+		exit_code = 258;
 		return(0);
 	}
 	else if(!check_red(line))
 	{
 		printf("syntax error\n");
+		exit_code = 258;
 		return(0);
 	}
 	else

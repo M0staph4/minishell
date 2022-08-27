@@ -35,18 +35,12 @@ void    exec_cd(char *path, t_env_list *env)
 			replace_pwd(env, old_pwd);
 		}
 		else
-		{
-			perror("cd: HOME not set");
-			exit_code = 1;
-		}
+			print_error("cd: HOME not set", NULL, 1);
 	}
 	else
 	{
 		if (chdir(path))
-		{
-			perror("cd: ");
-			exit_code = 1;
-		}
+			print_error(": No such file or directory", path, 1);
 		else
 			replace_pwd(env, old_pwd);
 	}

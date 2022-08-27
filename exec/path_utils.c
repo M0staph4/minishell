@@ -1,6 +1,5 @@
   #include "../inc/header.h"
 
-
 char	**find_path(char **envp)
 {
 	int		i;

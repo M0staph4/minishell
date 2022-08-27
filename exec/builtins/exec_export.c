@@ -1,86 +1,5 @@
 #include "../../inc/header.h"
 
-int	ft_isalnumdash(int c)
-{
-	if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z')
-		|| (c >= 'A' && c <= 'Z') || (c == '_') || (c == '='))
-		return (1);
-	return (0);
-}
-
-size_t	ft_strnchr(const char *s, int c)
-{
-	size_t	i;
-	char	*s1;
-	size_t	len;
-
-	s1 = (char *)s;
-	len = ft_strlen(s1) + 1;
-	i = 0;
-	while (i < len)
-	{
-		if (*s1 == (char)c)
-			return (i);
-		s1++;
-		i++;
-	}
-	return (0);
-}
-
-int	check_doube(t_env_list **env, char *key)
-{
-	char **tmp;
-
-	tmp  = ft_split(key, '=');
-	if (search_env(env, tmp[0]))
-		return (1);
-	else if (ft_strnchr(tmp[0], '+') == ft_strlen(tmp[0]) - 1)
-	{
-		tmp[0] = ft_substr(tmp[0], 0, ft_strlen(tmp[0]) -1);
-		if (search_env(env, tmp[0]))
-			return (2);
-	}
-	return (0);
-}
-
-int	check_key(char *key)
-{
-    int i;
-	char **keys;
-
-    i = 1;
-	keys = ft_split(key, '=');
-    if (ft_isalpha(keys[0][0]) || keys[0][0] == '_')
-    {
-        while(keys[0][i])
-        {
-            if (!ft_isalnumdash(keys[0][i]))
-            {
-                printf("export: %s: not a valid identifier\n", keys[0]);
-				exit_code = 1;
-                return (0);
-            }
-            i++;
-        }
-    }
-    else
-    {
-        printf("export: %s: event not found\n", key);
-		exit_code = 0;
-        return (0);
-    }
-    return (1);
-}
-
-t_env_list	*env_last(t_env_list *lst)
-{
-	if (!lst)
-		return (0);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
-}
-
 void append_value(t_env_list  **env, char *key, char *value)
 {
 	t_env_list *tmp;
@@ -117,33 +36,41 @@ void    replace_value(t_env_list  **env, char *key, char *value)
     }
 }
 
+void	add_key(t_env_list *env,  char *args)
+{
+	char    **temp;
+	t_env_list *tmp;
+
+	temp = NULL;
+	if (ft_strchr(args, '='))
+    {
+        temp = ft_split(args, '=');
+        if (temp[1])
+            env_add_back(&env, new_env(temp[0], temp[1], "="));
+        else
+            env_add_back(&env, new_env(temp[0], NULL, "="));
+    }
+    else
+    {
+        tmp = new_env(args, NULL, NULL);
+        env_add_back(&env, tmp);
+    }  
+    free(temp);
+}
+
 void set_export(t_env_list *env,  char **args)
 {
-    char    **temp = NULL;
+    char    **temp;
     int i;
-    t_env_list *tmp;
+
+	temp = NULL;
     i = 1;
     while(args[i])
     {
 		if (!check_doube(&env, args[i]))
 		{
         	if (check_key(args[i]))
-        	{
-        	    if (ft_strchr(args[i], '='))
-        	    {
-        	        temp = ft_split(args[i], '=');
-        	        if (temp[1])
-        	            env_add_back(&env, new_env(temp[0], temp[1], "="));
-        	        else
-        	            env_add_back(&env, new_env(temp[0], NULL, "="));
-        	    }
-        	    else
-        	    {
-        	        tmp = new_env(args[i], NULL, NULL);
-        	        env_add_back(&env, tmp);
-        	    }  
-        		free(temp);
-        	}
+				add_key(env, args[i]);
 		}
 		else
 		{
