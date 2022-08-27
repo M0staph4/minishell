@@ -21,17 +21,21 @@ char **t_env_list_to_char(t_env_list **env)
 
 t_env_list    *env_builder(char **envp)
 {
-    char        **tmp;
+    char        **t;
     int         i;
+	char	 **tmp;
 	t_env_list	*env;
 
 	env  = NULL;
+	tmp = NULL;
     i = 0;
     while(envp[i])
     {
-        tmp = ft_split(envp[i], '=');
+        t = ft_split(envp[i], '=');
+		tmp = t;
         env_add_back(&env, new_env(tmp[0], tmp[1], "="));
 		i++;
+		free_array(t);
     }
 	return (env);
 }

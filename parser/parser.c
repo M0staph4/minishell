@@ -10,7 +10,7 @@ void free_array(char **args)
 		free(args[i]);
 		i++;
 	}
-	free(args[i]);
+	free(args);
 }
 
 int count_args(char **args)
@@ -37,7 +37,7 @@ char **add_args_to_list(char **args, t_token *token)
 	new_args = malloc(sizeof(char *) * (count + 2));
 	while(++i < count)
 		new_args[i] = args[i];
-	new_args[i++] = token->content;
+	new_args[i++] = ft_strdup(token->content);
 	new_args[i] = NULL;
 	return (new_args);
 }
@@ -55,6 +55,7 @@ t_parser *add_parse(t_parser *parse, t_token *token, t_vr_tools *tools)
 	{
 		tmp = new_parse(tools->cmd , tools->args, tools->red);
 		parser_add_back(&parse, tmp);
+		free(tools->cmd);
 		tools->red = NULL;
 		tools->cmd = NULL;
 		tools->args = NULL;
@@ -93,11 +94,15 @@ t_parser *lexing(char *line, t_token *token, t_env_list *env)
 				if(token->type == TOKEN_REDIN || token->type == TOKEN_REDOUT || token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC)
 					tools.red = add_red_to_list(token, &tools);
 				parse = add_parse(parse, token, &tools);
+				free(token->content);
 				free(token);
 			}
 		}
 		if(x && !lexer->c)
+		{
 			parser_add_back(&parse, new_parse(tools.cmd, tools.args, tools.red));
+			free(tools.cmd);
+		}	
 		free(lexer);
 	}
 	return(parse);

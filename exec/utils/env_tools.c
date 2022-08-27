@@ -52,8 +52,8 @@ t_env_list	*new_env(char *key, char *content, char *separator)
 	new = malloc(sizeof(t_env_list) * 1);
 	if (!new)
 		return (0);
-	new->key = key;
-    new->content = content;
+	new->key = ft_strdup(key);
+    new->content = ft_strdup(content);
 	new->separator = separator;
 	new->next = NULL;
 	return (new);

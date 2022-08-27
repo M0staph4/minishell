@@ -6,7 +6,7 @@
 /*   By: mmoutawa <mmoutawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/15 23:28:02 by cel-mhan          #+#    #+#             */
-/*   Updated: 2022/08/27 00:15:34 by mmoutawa         ###   ########.fr       */
+/*   Updated: 2022/08/27 06:20:22 by mmoutawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*ft_strjoin(char *s1, char *s2);
 char	*ft_strmapi(char const *s1, char (*f)(unsigned int, char));
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-char	**ft_split(char const *s, char c);
+char	**ft_split(char *s, char c);
 char	*ft_itoa(int n);
 void	*ft_memchr(const void *s, int c, size_t n);
 void	*ft_memcpy(void *dst, const void *src, size_t n);

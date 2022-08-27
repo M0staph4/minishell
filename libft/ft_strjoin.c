@@ -6,7 +6,7 @@
 /*   By: mmoutawa <mmoutawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/14 03:12:51 by cel-mhan          #+#    #+#             */
-/*   Updated: 2022/08/27 04:55:59 by mmoutawa         ###   ########.fr       */
+/*   Updated: 2022/08/27 06:55:07 by mmoutawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@ char	*ft_strjoin(char *s1, char *s2)
 			result[i++] = s2[j++];
 	}
 	result[i] = '\0';
-	//free(s1);
+	free(s1);
 	return (result);
 }
