@@ -39,12 +39,14 @@ char **add_args_to_list(char **args, t_token *token)
 		new_args[i] = args[i];
 	new_args[i++] = ft_strdup(token->content);
 	new_args[i] = NULL;
+	free(token->content);
 	return (new_args);
 }
 
 t_parser *add_parse(t_parser *parse, t_token *token, t_vr_tools *tools)
 {
 	t_parser *tmp;
+
 	if(token->type == TOKEN_STR)
 	{
 		if(!tools->cmd)
@@ -55,7 +57,6 @@ t_parser *add_parse(t_parser *parse, t_token *token, t_vr_tools *tools)
 	{
 		tmp = new_parse(tools->cmd , tools->args, tools->red);
 		parser_add_back(&parse, tmp);
-		free(tools->cmd);
 		tools->red = NULL;
 		tools->cmd = NULL;
 		tools->args = NULL;
@@ -71,16 +72,24 @@ t_redirection *add_red_to_list(t_token *token, t_vr_tools *tools)
 	return(tools->red);
 }
 
+t_vr_tools *init_tools()
+{
+	t_vr_tools *tools;
+	tools = malloc(sizeof(t_vr_tools));
+	tools->red = NULL;
+	tools->cmd = NULL;
+	tools->args = NULL;
+	return(tools);
+}
+
 t_parser *lexing(char *line, t_token *token, t_env_list *env)
 {
 	t_lexer *lexer;
 	t_parser *parse;
-	t_vr_tools tools;
+	t_vr_tools *tools;
 
 	parse = NULL;
-	tools.red = NULL;
-	tools.cmd = NULL;
-	tools.args = NULL;
+	tools = init_tools();
 	lexer = init_lexer(line);
 	int x = 0;
 	if(lexer)
@@ -91,18 +100,17 @@ t_parser *lexing(char *line, t_token *token, t_env_list *env)
 			if(token)
 			{
 				x = 1;
-				if(token->type == TOKEN_REDIN || token->type == TOKEN_REDOUT || token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC)
-					tools.red = add_red_to_list(token, &tools);
-				parse = add_parse(parse, token, &tools);
+				// if(token->type == TOKEN_REDIN || token->type == TOKEN_REDOUT || token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC)
+				// 	tools->red = add_red_to_list(token, tools);
+				// parse = add_parse(parse, token, tools);
 				free(token->content);
 				free(token);
 			}
 		}
-		if(x && !lexer->c)
-		{
-			parser_add_back(&parse, new_parse(tools.cmd, tools.args, tools.red));
-			free(tools.cmd);
-		}	
+		// if(x && !lexer->c)
+		// 	parser_add_back(&parse, new_parse(tools->cmd, tools->args, tools->red));
+		free(tools->cmd);
+		free(tools);
 		free(lexer);
 	}
 	return(parse);

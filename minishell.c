@@ -32,6 +32,7 @@ int main(int ac, char **av, char **envp)
 	t_parser	*parse;
 	t_env_list	*env;
 	//int i = -1;
+	env = NULL;
 	env = env_builder(envp);
 	char *line;
 	(void) ac;
@@ -44,15 +45,17 @@ int main(int ac, char **av, char **envp)
 			parse = lexing(line, &token, env);
 		else
 			parse = NULL;
-
 		add_history(line);
 		// if(parse)
 		// {
 		// 	heredoc(&parse);
 		// 	pipeline_execution(parse, &env);
-		// } 
+		// }
 		free(line);
-		free(parse);
+		if(parse){
+		free_array(parse->args);
+		free(parse->cmd);
+		free(parse);}
 	}
 	return (0);
 }

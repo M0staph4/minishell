@@ -1,6 +1,6 @@
 #include "../inc/header.h"
 
-t_parser	*new_parse(char *cmd , char ** args , t_redirection *redirection)
+t_parser	*new_parse(char *cmd , char **args , t_redirection *redirection)
 {
 	t_parser	*new;
 
