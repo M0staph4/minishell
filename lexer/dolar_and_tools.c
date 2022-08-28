@@ -78,17 +78,19 @@ char *add_dolar_and_after_q(t_lexer *lexer, t_env_list *env)
 	char *value;
 	char *join;
 	char *s;
+	char *dolar;
 
 	value = ft_strdup("");
 	while(!sp_c(lexer->c) || lexer->c == '$')
 	{
 		if(lexer->c == '$')
 		{
-			join = add_dolar(lexer);
-			join = add_dolar_token(join, env, lexer->c);
+			dolar = add_dolar(lexer);
+			join = add_dolar_token(dolar, env, lexer->c);
 			if(join)
 				value = ft_strjoin(value, join);
 			free(join);
+			free(dolar);
 		}
 		if(!sp_c(lexer->c))
 		{

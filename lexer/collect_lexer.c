@@ -5,6 +5,7 @@ char *join_to_join(t_lexer *lexer, char c, t_env_list *env)
 	char *value;
 	char *s;
 	char *join;
+	char *dolar;
 	int q;
 
 	q = 0;
@@ -16,10 +17,11 @@ char *join_to_join(t_lexer *lexer, char c, t_env_list *env)
 	{
 		if(lexer->c == '$' && q == 1)
 		{
-			join = add_dolar(lexer);
-			join = add_dolar_token(join, env, lexer->c);
+			dolar = add_dolar(lexer);
+			join = add_dolar_token(dolar, env, lexer->c);
 			if(join)
 				value = ft_strjoin(value, join);
+			free(dolar);
 		}
 		if(lexer->c != c)
 		{
@@ -37,16 +39,18 @@ char *add_all_in_value(char *old_value, char c, t_lexer *lexer, t_env_list *env)
 	char *value;
 	char *s;
 	char *join;
+	char *dolar;
 
 	value = ft_strdup("");
 	if(c != '"' && c != '\'')
 	{
 		if(c == '$')
 		{
-			join = add_dolar(lexer);
-			join = add_dolar_token(join, env, lexer->c);
+			dolar = add_dolar(lexer);
+			join = add_dolar_token(dolar, env, lexer->c);
 			if(join)
 				value = ft_strjoin(value, join);
+			free(dolar);
 		}
 		if(!sp_c(lexer->c))
 		{

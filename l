@@ -14,12 +14,24 @@
 // 	signal(SIGQUIT, SIG_IGN);
 // 	signal(SIGINT, handler);
 // }
-
+		// while(parse)
+		// {
+		// 	if(parse->cmd)
+		// 		printf("cmd : %s\n",parse->cmd);
+		// 	if(parse->args)
+		// 	{
+		// 		while(parse->args[++i])
+		// 			printf("args : %s\n",parse->args[i]);
+		// 	}
+		// 	i = -1;
+		// 	parse = parse->next;
+		// }
 int main(int ac, char **av, char **envp)
 {
 	t_token		token;
 	t_parser	*parse;
 	t_env_list	*env;
+	//int i = -1;
 	env = NULL;
 	env = env_builder(envp);
 	char *line;
@@ -40,10 +52,10 @@ int main(int ac, char **av, char **envp)
 			pipeline_execution(parse, &env);
 		}
 		free(line);
-		// if(parse){
-		// free_array(parse->args);
-		// free(parse->cmd);
-		// free(parse);}
+		if(parse){
+		free_array(parse->args);
+		free(parse->cmd);
+		free(parse);}
 	}
 	return (0);
 }
