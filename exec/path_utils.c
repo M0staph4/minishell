@@ -44,8 +44,8 @@ char	*search(char **envp, char *cmd)
 	{
 		while (paths[i])
 		{
-			x2 = ft_strjoin(paths[i], "/");
-			x = ft_strjoin(x2, cmd);
+			x2 = join_env(paths[i], "/");
+			x = join_env(x2, cmd);
 			free(x2);
 			if (access(x, F_OK) == 0)
 			{

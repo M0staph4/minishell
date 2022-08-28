@@ -6,7 +6,7 @@ SRC = minishell.c lexer/lexer.c lexer/tokenizer.c parser/parser.c parser/redirec
 		lexer/collect_lexer.c lexer/lexer_tools.c lexer/syntax.c exec/redirections.c exec/builtins/exec_export.c \
 		exec/builtins/exec_echo.c exec/builtins/exec_unset.c exec/builtins/exec_exit.c exec/heredoc.c \
 		lexer/dolar_and_tools.c exec/utils/env_tools.c exec/utils/cmd_utils.c exec/utils/export_utils.c \
-		exec/utils/error_management.c
+		exec/utils/error_management.c exec/builtins.c
 LIB = libft.a
 
 # This is a minimal set of ANSI/VT100 color codes

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoutawa <mmoutawa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cel-mhan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/14 02:51:20 by cel-mhan          #+#    #+#             */
-/*   Updated: 2022/08/27 06:19:57 by mmoutawa         ###   ########.fr       */
+/*   Updated: 2021/11/19 02:30:18 by cel-mhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
 static int	count_words(char *s, char c)
 {
 	int	i;
@@ -69,7 +70,7 @@ static char	*ft_strndup(char *src, char c, int j)
 	return (dst);
 }
 
-char	**ft_split(char *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	int		i;
 	char	**array;

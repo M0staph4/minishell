@@ -34,8 +34,8 @@ void print_args(char **args)
         {
             if (!ft_strncmp(args[i], "$?", 3))
             {
-                printf("%d", exit_code);
-                exit_code = 0;
+                printf("%d", exit_status);
+                exit_status = 0;
             }
             else
                 printf("%s", args[i]);
@@ -55,8 +55,8 @@ void print_without_option(char **args)
     {
         if (!ft_strncmp(args[i], "$?", 3))
         {
-            printf("%d", exit_code);
-            exit_code = 0;
+            printf("%d", exit_status);
+            exit_status = 0;
         }
         else
             printf("%s", args[i]);
@@ -75,5 +75,5 @@ void    exec_echo(t_parser *parser)
         print_args(parser->args);
     else
         print_without_option(parser->args);
-    exit_code = 0;
+    exit_status = 0;
 }

@@ -76,6 +76,7 @@ int    redirections(t_redirection *red, char *cmd)
             if (input == -1)
             {
                 perror("file");
+                exit_status = 1;
                 return (-1);
             }
         }
@@ -85,9 +86,8 @@ int    redirections(t_redirection *red, char *cmd)
             if (output == -1)
                 return (-1);
         }
-        if  (!red->next)
-            dup_redirections(input, output, cmd);
         red = red->next;
     }
+    dup_redirections(input, output, cmd);
     return (0);
 }

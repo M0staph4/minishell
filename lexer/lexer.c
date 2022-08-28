@@ -6,7 +6,7 @@ t_lexer *init_lexer(char *line)
 	t_lexer *lexer;
 
 	lexer = malloc(sizeof(t_lexer));
-	lexer->line = line;
+	lexer->line = line; 
 	lexer->pos = 0;
 	lexer->nb_pipe = 1;
 	lexer->c = lexer->line[lexer->pos];
@@ -23,7 +23,7 @@ t_token *red_token(t_lexer *lexer, t_env_list *env)
 		return(collect_apn_hrd(lexer, TOKEN_HEREDOC));
 	else if(lexer->c == '>')
 		return(collect_red(lexer, TOKEN_APPEND, env));
-	else if(c == '>')
+	else if(c == '>') 
 		return (collect_red(lexer, TOKEN_REDOUT, env));
 	else if(c == '<')
 		return (collect_red(lexer, TOKEN_REDIN, env));

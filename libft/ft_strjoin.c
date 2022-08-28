@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmoutawa <mmoutawa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cel-mhan <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/14 03:12:51 by cel-mhan          #+#    #+#             */
-/*   Updated: 2022/08/28 03:41:49 by mmoutawa         ###   ########.fr       */
+/*   Updated: 2021/11/15 23:26:02 by cel-mhan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 // 	return (dst);
 // }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin(char  *s1, char  *s2)
 {
 	char	*result;
 	int i;

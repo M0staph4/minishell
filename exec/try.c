@@ -108,7 +108,7 @@ void	wait_child(void)
 	while(waitpid(-1, &status, 0) > 0)
 	{
 		if(WEXITSTATUS(status))
-			exit_code = WEXITSTATUS(status);
+			exit_status = WEXITSTATUS(status);
 	}
 }
 

@@ -24,7 +24,7 @@
 #define MALLOC_ERR 1
 #define FORK_ERR 2
 
-int exit_code;
+int exit_status;
 
 typedef struct s_table{
     char *cmd;

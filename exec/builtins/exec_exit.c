@@ -26,19 +26,18 @@ void    exec_exit(t_parser *parser)
     if (parser->args[2])
     {
         ft_putendl_fd("exit\nexit: too many arguments", 2);
-        exit_code = 1;
+        exit_status = 1;
     }
     else if (!is_numeric(parser->args[1]))
     {
         ft_putendl_fd("exit\nexit: numeric argument required", 2);
-        exit_code = 255;
-        exit(exit_code);
+        exit_status = 255;
+        exit(exit_status);
     }
     else
     {
-        printf("here");
-        exit_code = ft_atoi(parser->args[1]);
+        exit_status = ft_atoi(parser->args[1]);
         ft_putendl_fd("exit", 1);
-        exit(exit_code);
+        exit(exit_status);
     }
 }

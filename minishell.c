@@ -1,26 +1,52 @@
 #include "inc/header.h"
 #include "struct.h"
 
-// void    handler()
-// {
-//     rl_replace_line("", 0);
-//     ft_putchar_fd('\n', 1);
-//     rl_on_new_line();
-//     rl_redisplay();
-//     return;
-// }
-// void hd_sg()
-// {
-// 	signal(SIGQUIT, SIG_IGN);
-// 	signal(SIGINT, handler);
-// }
+void    handler()
+{
+    // rl_replace_line("", 0);
+    ft_putchar_fd('\n', 1);
+    rl_on_new_line();
+    rl_redisplay();
+    return;
+}
+void hd_sg()
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handler);
+}
+void free_leaks(t_parser *parse)
+{
+	t_parser *tmp;
+	t_redirection *tmp_red;
+
+	while(parse)
+	{
+		if(parse->cmd)
+			free(parse->cmd);
+		if(parse->args)
+			free_array(parse->args);
+		if(parse->red)
+		{
+			while(parse->red)
+			{
+				if(parse->red->file)
+					free(parse->red->file);
+				tmp_red = parse->red;
+				parse->red = parse->red->next;
+				free(tmp_red);
+			}
+		}
+		tmp = parse;
+		parse = parse->next;
+		free(tmp);
+	}
+}
 
 int main(int ac, char **av, char **envp)
 {
 	t_token		token;
 	t_parser	*parse;
 	t_env_list	*env;
-	env = NULL;
 	env = env_builder(envp);
 	char *line;
 	(void) ac;
@@ -34,16 +60,13 @@ int main(int ac, char **av, char **envp)
 		else
 			parse = NULL;
 		add_history(line);
-		if(parse)
-		{
-			heredoc(&parse);
-			pipeline_execution(parse, &env);
-		}
+		// if(parse)
+		// {
+		// 	heredoc(&parse);
+		// 	pipeline_execution(&parse, &env);
+		// }
 		free(line);
-		// if(parse){
-		// free_array(parse->args);
-		// free(parse->cmd);
-		// free(parse);}
+		free_leaks(parse);
 	}
 	return (0);
 }

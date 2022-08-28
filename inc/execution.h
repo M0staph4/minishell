@@ -40,7 +40,7 @@ int     ft_count_elems(char **str);
 
 
 void 	exec_builtins(t_parser *parser, t_env_list *env);
-void    pipeline_execution(t_parser *parser, t_env_list **envp);
+void    pipeline_execution(t_parser **parser, t_env_list **envp);
 int     redirections(t_redirection *red, char *cmd);
 
 
@@ -54,6 +54,11 @@ void     heredoc(t_parser **parse);
 void	dup_end(int end, int dup_fd);
 void	close_pipe(int *end, int fd_in);
 int    redirection_out_to(t_redirection *red);
-void print_error(char *error, char *ar, int ex_code);
+void    print_error(char *error, char *ar, int ex_code);
+int		check_builtin(t_parser *parser);
+void 	exec_builtins(t_parser *parser, t_env_list *env);
+int parent_builtins(t_parser *parser);
+void print_error2(char *error, char *ar, int ex_code);
+char	*join_env(char const *s1, char const *s2);
 
 #endif
