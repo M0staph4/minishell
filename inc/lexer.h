@@ -20,6 +20,7 @@ char *add_value(char *value);
 char *add_all(char *old_value, char c, t_lexer *lexer, t_env_list *env);
 int sp_c(char c);
 char *add_dolar(t_lexer *lexer);
-char *add_dolar_token(char *dolar, t_env_list *env, char c);
+char *join_dolar(char *dolar, t_env_list *env);
 char *add_dolar_and_after_q(t_lexer *lexer, t_env_list *env);
+char *dolar(t_lexer *lexer ,t_env_list *env, char *value);
 #endif

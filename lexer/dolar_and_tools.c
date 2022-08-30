@@ -18,6 +18,20 @@ int sp_c(char c)
 	return(0);
 }
 
+char *dolar(t_lexer *lexer ,t_env_list *env, char *value)
+{
+	char *join;
+	char *dolar;
+
+	dolar = add_dolar(lexer);
+	join = join_dolar(dolar, env);
+	if(join)
+		value = ft_strjoin(value, join);
+	free(join);
+	free(dolar);
+	return (value);
+}
+
 char *add_value(char *value)
 {
 	int i;
@@ -58,6 +72,8 @@ char *add_dolar(t_lexer *lexer)
 		lexer_advance(lexer);
 		return(ft_strdup("?"));
 	}
+	if(lexer->c == '"' || lexer->c == '\'')
+		return(NULL);
 	while ((lexer->c != '\0') && (ft_isalpha(lexer->c) || lexer->c == '_' || ft_isalnum(lexer->c)))
 	{
 		s = get_char_as_string(lexer);
@@ -68,11 +84,13 @@ char *add_dolar(t_lexer *lexer)
 	return(value);
 }
 
-char *add_dolar_token(char *dolar, t_env_list *env, char c)
+char *join_dolar(char *dolar, t_env_list *env)
 {
+	if(!dolar)
+		return(NULL);
 	if(get_env(&env, dolar))
 		return(ft_strdup(get_env(&env, dolar)));
-	else if(!dolar[0] && c != '"')
+	else if(!dolar[0])
 	 	return(ft_strdup("$"));
 	else if(dolar[0] == '?' && !dolar[1])
 		return(ft_itoa(exit_status));
@@ -82,22 +100,13 @@ char *add_dolar_token(char *dolar, t_env_list *env, char c)
 char *add_dolar_and_after_q(t_lexer *lexer, t_env_list *env)
 {
 	char *value;
-	char *join;
 	char *s;
-	char *dolar;
 
 	value = ft_strdup("");
 	while(!sp_c(lexer->c) || lexer->c == '$')
 	{
 		if(lexer->c == '$')
-		{
-			dolar = add_dolar(lexer);
-			join = add_dolar_token(dolar, env, lexer->c);
-			if(join)
-				value = ft_strjoin(value, join);
-			free(join);
-			free(dolar);
-		}
+			value = dolar(lexer, env, value);
 		if(!sp_c(lexer->c))
 		{
 			s = get_char_as_string(lexer);
