@@ -1,29 +1,39 @@
 #include "../inc/header.h"
 
+char *dolar(t_lexer *lexer ,t_env_list *env, char *value)
+{
+	char *join;
+	char *dolar;
+
+	dolar = add_dolar(lexer);
+	join = add_dolar_token(dolar, env, lexer->c);
+	if(join)
+		value = ft_strjoin(value, join);
+	free(join);
+	free(dolar);
+	return (value);
+}
+
 char *join_to_join(t_lexer *lexer, char c, t_env_list *env)
 {
 	char *value;
 	char *s;
-	char *join;
-	char *dolar;
 	int q;
 
 	q = 0;
 	value = ft_strdup("");
-	if(c == '"')
-		q = 1;
 	lexer_advance(lexer);
+	if(c == '"' && lexer->c == '$')
+		q = 1;
 	while(lexer->c != c && lexer->c != '\0')
 	{
 		if(lexer->c == '$' && q == 1)
 		{
-			dolar = add_dolar(lexer);
-			join = add_dolar_token(dolar, env, lexer->c);
-			if(join)
-				value = ft_strjoin(value, join);
-			free(dolar);
+			value = dolar(lexer, env, value);
+			if(lexer->c == '$')
+				q = 1;
 		}
-		if(lexer->c != c)
+		if(lexer->c != c && q != 1)
 		{
 			s = get_char_as_string(lexer);
 			value = ft_strjoin(value, s);
@@ -39,19 +49,12 @@ char *add_all_in_value(char *old_value, char c, t_lexer *lexer, t_env_list *env)
 	char *value;
 	char *s;
 	char *join;
-	char *dolar;
 
 	value = ft_strdup("");
 	if(c != '"' && c != '\'')
 	{
 		if(c == '$')
-		{
-			dolar = add_dolar(lexer);
-			join = add_dolar_token(dolar, env, lexer->c);
-			if(join)
-				value = ft_strjoin(value, join);
-			free(dolar);
-		}
+			value = dolar(lexer, env, value);
 		if(!sp_c(lexer->c))
 		{
 			s = get_char_as_string(lexer);

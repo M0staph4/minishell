@@ -32,13 +32,7 @@ void print_args(char **args)
     {
         if (!check_echo(args[i]))
         {
-            if (!ft_strncmp(args[i], "$?", 3))
-            {
-                printf("%d", exit_status);
-                exit_status = 0;
-            }
-            else
-                printf("%s", args[i]);
+            printf("%s", args[i]);
             if (args[i + 1] != NULL)
                 printf(" ");
         }
@@ -53,13 +47,7 @@ void print_without_option(char **args)
     i = 1;
     while(args[i])
     {
-        if (!ft_strncmp(args[i], "$?", 3))
-        {
-            printf("%d", exit_status);
-            exit_status = 0;
-        }
-        else
-            printf("%s", args[i]);
+        printf("%s", args[i]);
         if (args[i + 1] != NULL)
             printf(" ");
         i++;

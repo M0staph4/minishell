@@ -52,6 +52,12 @@ char *add_dolar(t_lexer *lexer)
 
 	value = ft_strdup("");
 	lexer_advance(lexer);
+	if(lexer->c  == '?')
+	{
+		free(value);
+		lexer_advance(lexer);
+		return(ft_strdup("?"));
+	}
 	while ((lexer->c != '\0') && (ft_isalpha(lexer->c) || lexer->c == '_' || ft_isalnum(lexer->c)))
 	{
 		s = get_char_as_string(lexer);
@@ -65,11 +71,11 @@ char *add_dolar(t_lexer *lexer)
 char *add_dolar_token(char *dolar, t_env_list *env, char c)
 {
 	if(get_env(&env, dolar))
-		return(get_env(&env, dolar));
+		return(ft_strdup(get_env(&env, dolar)));
 	else if(!dolar[0] && c != '"')
 	 	return(ft_strdup("$"));
 	else if(dolar[0] == '?' && !dolar[1])
-		return(ft_strdup("$?"));
+		return(ft_itoa(exit_status));
 	return(NULL);
 }
 

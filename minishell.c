@@ -47,6 +47,8 @@ int main(int ac, char **av, char **envp)
 	t_token		token;
 	t_parser	*parse;
 	t_env_list	*env;
+	t_vr_tools	*tools = NULL;
+
 	env = env_builder(envp);
 	char *line;
 	(void) ac;
@@ -56,15 +58,15 @@ int main(int ac, char **av, char **envp)
 		// hd_sg();
 		line = readline("minishell: ");
 		if(ft_syntax_error(line))
-			parse = lexing(line, &token, env);
+			parse = lexing(line, &token, env, tools);
 		else
 			parse = NULL;
 		add_history(line);
-		// if(parse)
-		// {
-		// 	heredoc(&parse);
-		// 	pipeline_execution(&parse, &env);
-		// }
+		if(parse)
+		{
+			heredoc(&parse);
+			pipeline_execution(&parse, &env);
+		}
 		free(line);
 		free_leaks(parse);
 	}
