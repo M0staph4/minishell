@@ -1,14 +1,15 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror  -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror  #-fsanitize=address -g
 SRC = minishell.c lexer/lexer.c lexer/tokenizer.c parser/parser.c parser/redirections.c parser/parser_tools.c \
 		exec/builtins/exec_env.c exec/builtins/exec_cd.c exec/builtins/exec_pwd.c exec/pipeline.c exec/path_utils.c \
 		lexer/collect_lexer.c lexer/lexer_tools.c lexer/syntax.c exec/redirections.c exec/builtins/exec_export.c \
 		exec/builtins/exec_echo.c exec/builtins/exec_unset.c exec/builtins/exec_exit.c exec/heredoc.c \
 		lexer/dolar_and_tools.c exec/utils/env_tools.c exec/utils/cmd_utils.c exec/utils/export_utils.c \
-		exec/utils/error_management.c exec/builtins.c
+		exec/utils/error_management.c exec/builtins.c lexer/lexer_tools_2.c lexer/syntax_tools.c lexer/dolar_tools.c \
+		parser/parse_tools.c
 LIB = libft.a
-RDLINE=  -lreadline -L /Users/mmoutawa/goinfre/.brew/opt/readline/lib -I /Users/mmoutawa/goinfre/.brew/opt/readline/include
+RDLINE=  -lreadline -L /Users/cel-mhan/goinfre/.brew/opt/readline/lib -I /Users/cel-mhan/goinfre/.brew/opt/readline/include
 
 
 # This is a minimal set of ANSI/VT100 color codes

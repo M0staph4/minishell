@@ -1,12 +1,12 @@
 #include "../inc/header.h"
 #include "../inc/execution.h"
 
-void execute(t_env_list *env, t_parser *parser)
+void execute(t_env_list **env, t_parser *parser)
 {
 	char	*path;
 	char	**envp;
 
-	envp = t_env_list_to_char(&env);
+	envp = t_env_list_to_char(env);
 	if (parser->cmd[0] == '.' || parser->cmd[0] == '/')
 	{
 		path = parser->cmd;
@@ -43,7 +43,7 @@ void close_heredoc_pipes(t_redirection *red)
 		}
 	}
 }
-void execute_last_cmd(t_parser *parser, t_redirection **redi, t_env_list *env, int fd_in, int *end)
+void execute_last_cmd(t_parser *parser, t_redirection **redi, t_env_list **env, int fd_in, int *end)
 {
 	t_redirection *red=  *redi;
 	if (!red && parent_builtins(parser) &&  parser->flag != 1)
@@ -62,8 +62,8 @@ void execute_last_cmd(t_parser *parser, t_redirection **redi, t_env_list *env, i
 					execute(env, parser);
 		}
 		
-		// else
-		// 	exit(1);
+		else
+			exit(1);
 		exit(exit_status);
 	}
 }
@@ -77,14 +77,14 @@ void	wait_child(void)
 	{
 		if(WEXITSTATUS(status))
 			exit_status = WEXITSTATUS(status);
-		// else if (WIFSIGNALED(status) > 130)
+		// else if (WIFSIGNALED(status) > 129)
 		// 	exit_status = WIFSIGNALED(status) ;
 	}
 }
 
-void	launch_child(t_parser *parser, t_redirection **redi, t_env_list *env, int fd_in, int *end)
+void	launch_child(t_parser *parser, t_redirection **redi, t_env_list **env, int fd_in, int *end)
 {
-	t_redirection *red = *redi;;
+	t_redirection *red = *redi;
 	pid_t pid = fork();
 	if (pid == 0)
 	{
@@ -99,23 +99,21 @@ void	launch_child(t_parser *parser, t_redirection **redi, t_env_list *env, int f
 			else
 				execute(env, parser);
 		}
-		// else
-		// 	exit(1);
+		else
+			exit(1);
 		exit(exit_status);
 	}
 }
 
 
-void    pipeline_execution(t_parser **parse, t_env_list **envp)
+void    pipeline_execution(t_parser **parse, t_env_list **env)
 {
 	int fd_in;
-	t_env_list *env;
 	int end[2];
 	t_parser *parser;
 	
 	parser = *parse;
 	fd_in = 0;
-	env = (*envp);
 	while (parser->next)
 	{
 		parser->flag = 1;

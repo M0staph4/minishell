@@ -24,4 +24,10 @@ char *join_dolar(char *dolar, t_env_list *env);
 char *add_dolar_and_after_q(t_lexer *lexer, t_env_list *env);
 char *dolar(t_lexer *lexer ,t_env_list *env, char *value);
 char *join_char(t_lexer *lexer, char *value);
+char	*join_to_join(t_lexer *lexer, char c, t_env_list *env);
+char	*dolar_q(t_lexer *lexer, t_env_list *env, char *value);
+char	*add_all_in_value(char *old_value, char c,
+		t_lexer *lexer, t_env_list *env);
+int	find_second_one(char *line, int pos);
+int	check_second_pipe(char *line, int pos);
 #endif

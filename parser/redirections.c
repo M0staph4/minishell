@@ -8,7 +8,7 @@ t_redirection	*new_red(int type, char *file)
 	if (!new)
 		return (0);
 	new->type = type;
-    new->file = file;
+	new->file = file;
 	new->next = NULL;
 	return (new);
 }

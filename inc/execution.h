@@ -6,12 +6,12 @@
 
 
 //builtins
-void    exec_cd(char *path, t_env_list *env);
+void    exec_cd(char *path, t_env_list **env);
 void    exec_echo(t_parser *parser);
 void    exec_env(t_parser *parse, t_env_list **envp);
 void    exec_exit(t_parser *parser);
 void    exec_export(t_parser *parse, t_env_list **envp);
-void    exec_pwd(t_env_list *env);
+void    exec_pwd(t_env_list **env);
 void    exec_unset(t_env_list **env, char **key);
 
 //t_env_list
@@ -39,7 +39,7 @@ void    delete_env(t_env_list **env,  char *key);
 int     ft_count_elems(char **str);
 
 
-void 	exec_builtins(t_parser *parser, t_env_list *env);
+void 	exec_builtins(t_parser *parser, t_env_list **env);
 void    pipeline_execution(t_parser **parser, t_env_list **envp);
 int     redirections(t_redirection *red, char *cmd);
 
@@ -56,7 +56,6 @@ void	close_pipe(int *end, int fd_in);
 int    redirection_out_to(t_redirection *red);
 void    print_error(char *error, char *ar, int ex_code);
 int		check_builtin(t_parser *parser);
-void 	exec_builtins(t_parser *parser, t_env_list *env);
 int parent_builtins(t_parser *parser);
 int print_error2(char *error, char *ar, int ex_code);
 char	*join_env(char const *s1, char const *s2);

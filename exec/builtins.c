@@ -10,7 +10,7 @@ int		check_builtin(t_parser *parser)
 	return (0);
 }
 
-void 	exec_builtins(t_parser *parser, t_env_list *env)
+void 	exec_builtins(t_parser *parser, t_env_list **env)
 {
 	if (!ft_strncmp(parser->cmd, "cd", 3) )
 		exec_cd(parser->args[1], env);
@@ -21,11 +21,11 @@ void 	exec_builtins(t_parser *parser, t_env_list *env)
     else if (!ft_strncmp(parser->cmd, "exit", 6))
         exec_exit(parser);
     else if (!ft_strncmp(parser->cmd, "env", 4) || !ft_strncmp(parser->cmd, "ENV", 4))
-        exec_env(parser, &env);
+        exec_env(parser, env);
 	else if (!ft_strncmp(parser->cmd, "export", 8))
-        exec_export(parser, &env);
+        exec_export(parser, env);
 	else if (!ft_strncmp(parser->cmd, "unset", 6))
-        exec_unset(&env, parser->args);
+        exec_unset(env, parser->args);
 }
 
 int parent_builtins(t_parser *parser)

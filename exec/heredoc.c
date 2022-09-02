@@ -1,13 +1,13 @@
 #include "../inc/header.h"
-void    handle_c()
-{
+// void    handle_c()
+// {
 	
-}
+// }
 
-void handler_heredoc_sg()
-{
+// void handler_heredoc_sg()
+// {
 
-}
+// }
 void heredoc_implementation(char *delim, int end)
 {
     char *buff;

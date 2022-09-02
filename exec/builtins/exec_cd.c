@@ -13,32 +13,32 @@ char	*get_pwd()
 	return (buff);
 }
 
-void	replace_pwd(t_env_list *env, char *old_pwd)
+void	replace_pwd(t_env_list **env, char *old_pwd)
 {
 	char *pwd;
 
 	pwd = get_pwd();
-	if (search_env(&env, "OLDPWD"))
+	if (search_env(env, "OLDPWD"))
 	{
 		if (old_pwd)
-			replace_value(&env, "OLDPWD", old_pwd);
+			replace_value(env, "OLDPWD", old_pwd);
 		else
-			replace_value(&env, "OLDPWD", get_env(&env, "PWD"));
+			replace_value(env, "OLDPWD", get_env(env, "PWD"));
 	}
-	replace_value(&env, "PWD", pwd);
+	replace_value(env, "PWD", pwd);
 	free(pwd);
 }
 
-void    exec_cd(char *path, t_env_list *env)
+void    exec_cd(char *path, t_env_list **env)
 {
 	char *old_pwd;
 
 	old_pwd = get_pwd();
     if (path == NULL || !ft_strncmp(path, "~", 2))
 	{
-		if (search_env(&env, "HOME"))
+		if (search_env(env, "HOME"))
 		{
-			chdir(get_env(&env, "HOME"));
+			chdir(get_env(env, "HOME"));
 			replace_pwd(env, old_pwd);
 		}
 		else

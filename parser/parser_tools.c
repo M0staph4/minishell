@@ -1,6 +1,6 @@
 #include "../inc/header.h"
 
-t_parser	*new_parse(char *cmd , char **args , t_redirection *redirection)
+t_parser	*new_parse(char *cmd, char **args, t_redirection *redirection)
 {
 	t_parser	*new;
 
@@ -8,10 +8,10 @@ t_parser	*new_parse(char *cmd , char **args , t_redirection *redirection)
 	if (!new)
 		return (0);
 	new->cmd = ft_strdup(cmd);
-    new->args = args;
+	new->args = args;
 	new->red = redirection;
 	new->next = NULL;
-	return (new); 
+	return (new);
 }
 
 int	parse_size(t_parser *lst)
@@ -28,7 +28,6 @@ int	parse_size(t_parser *lst)
 	}
 	return (size);
 }
-
 
 void	parser_add_back(t_parser **alst, t_parser *new)
 {

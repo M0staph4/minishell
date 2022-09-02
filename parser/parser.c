@@ -1,8 +1,8 @@
 #include "../inc/header.h"
 
-void free_array(char **args)
+void	free_array(char **args)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (args[i])
@@ -13,51 +13,19 @@ void free_array(char **args)
 	free(args);
 }
 
-int count_args(char **args)
+t_parser	*add_parse(t_parser *parse, t_token *token, t_vr_tools *tools)
 {
-	int i;
-	i = 0;
+	t_parser	*tmp;
 
-	if(args)
+	if (token->type == TOKEN_STR)
 	{
-		while(args[i])
-			i++;
-	}
-	return(i);
-}
-
-char **add_args_to_list(char **args, t_token *token)
-{
-	char **new_args;
-	int i;
-	int count;
-
-	count = count_args(args);
-	i = -1;
-	new_args = malloc(sizeof(char *) * (count + 2));
-	while(++i < count)
-		new_args[i] = args[i];
-	if(count)
-		free(args);
-	new_args[i++] = ft_strdup(token->content);
-	new_args[i] = NULL;
-	free(token->content);
-	return (new_args);
-}
-
-t_parser *add_parse(t_parser *parse, t_token *token, t_vr_tools *tools)
-{
-	t_parser *tmp;
-
-	if(token->type == TOKEN_STR)
-	{
-		if(!tools->cmd)
+		if (!tools->cmd)
 			tools->cmd = ft_strdup(token->content);
-		tools->args = add_args_to_list(tools->args , token);
+		tools->args = add_args_to_list(tools->args, token);
 	}
-	else if(token->type == TOKEN_PIPE)
+	else if (token->type == TOKEN_PIPE)
 	{
-		tmp = new_parse(tools->cmd , tools->args, tools->red);
+		tmp = new_parse(tools->cmd, tools->args, tools->red);
 		parser_add_back(&parse, tmp);
 		free(tools->cmd);
 		free(token->content);
@@ -65,55 +33,61 @@ t_parser *add_parse(t_parser *parse, t_token *token, t_vr_tools *tools)
 		tools->cmd = NULL;
 		tools->args = NULL;
 	}
-	return(parse);
+	return (parse);
 }
 
-t_redirection *add_red_to_list(t_token *token, t_vr_tools *tools)
+t_redirection	*add_red_to_list(t_token *token, t_vr_tools *tools)
 {
-	t_redirection *red;
+	t_redirection	*red;
+
 	red = new_red(token->type, token->content);
 	red_add_back(&tools->red, red);
-	return(tools->red);
+	return (tools->red);
 }
 
-t_vr_tools *init_tools()
+t_vr_tools	*init_tools(void)
 {
-	t_vr_tools *tools;
-	tools = malloc(sizeof(t_vr_tools));
+	t_vr_tools	*tools;
+
+	tools = malloc (sizeof(t_vr_tools));
 	tools->red = NULL;
 	tools->cmd = NULL;
 	tools->args = NULL;
-	return(tools);
+	return (tools);
 }
 
-t_parser *lexing(char *line, t_token *token, t_env_list *env, t_vr_tools *tools)
+t_parser	*lexing(char *line, t_token *token,
+			t_env_list *env, t_vr_tools *tools)
 {
-	t_lexer *lexer;
-	t_parser *parse;
+	t_lexer		*lexer;
+	t_parser	*parse;
+	int			x;
 
 	parse = NULL;
 	tools = init_tools();
 	lexer = init_lexer(line);
-	int x = 0;
-	if(lexer)
+	x = 0;
+	if (lexer)
 	{
 		while (lexer->c)
 		{
 			token = get_next_token(lexer, env);
-			if(token)
+			if (token)
 			{
 				x = 1;
-				if(token->type == TOKEN_REDIN || token->type == TOKEN_REDOUT || token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC)
+				if (token->type == TOKEN_REDIN || token->type == TOKEN_REDOUT
+					|| token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC)
 					tools->red = add_red_to_list(token, tools);
 				parse = add_parse(parse, token, tools);
 				free(token);
 			}
 		}
-		if(x && !lexer->c)
-			parser_add_back(&parse, new_parse(tools->cmd, tools->args, tools->red));
+		if (x && !lexer->c)
+			parser_add_back(&parse,
+				new_parse(tools->cmd, tools->args, tools->red));
 		free(tools->cmd);
 		free(tools);
 		free(lexer);
 	}
-	return(parse);
+	return (parse);
 }
