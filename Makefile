@@ -1,6 +1,6 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -lreadline #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror  -fsanitize=address -g
 SRC = minishell.c lexer/lexer.c lexer/tokenizer.c parser/parser.c parser/redirections.c parser/parser_tools.c \
 		exec/builtins/exec_env.c exec/builtins/exec_cd.c exec/builtins/exec_pwd.c exec/pipeline.c exec/path_utils.c \
 		lexer/collect_lexer.c lexer/lexer_tools.c lexer/syntax.c exec/redirections.c exec/builtins/exec_export.c \
@@ -8,6 +8,8 @@ SRC = minishell.c lexer/lexer.c lexer/tokenizer.c parser/parser.c parser/redirec
 		lexer/dolar_and_tools.c exec/utils/env_tools.c exec/utils/cmd_utils.c exec/utils/export_utils.c \
 		exec/utils/error_management.c exec/builtins.c
 LIB = libft.a
+RDLINE=  -lreadline -L /Users/mmoutawa/goinfre/.brew/opt/readline/lib -I /Users/mmoutawa/goinfre/.brew/opt/readline/include
+
 
 # This is a minimal set of ANSI/VT100 color codes
 _END=$'\x1b[0m'
@@ -28,7 +30,7 @@ $(LIB):
 
 $(NAME): $(SRC) $(LIB)
 	@echo "${_BOLD}${_GREEN}---------Minishell Compilation---------${_END}"
-	$(CC) $(CFLAGS) $(SRC) -o $(NAME) $(LIB)
+	$(CC) $(CFLAGS) $(RDLINE)   $(SRC)  -o $(NAME) $(LIB)
 clean:
 	@echo "${_BOLD}${_RED}---------Cleaning Objects---------${_END}"
 	rm -rf $(OBJ)

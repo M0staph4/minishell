@@ -12,7 +12,7 @@ void    exec_env(t_parser *parse, t_env_list **envp);
 void    exec_exit(t_parser *parser);
 void    exec_export(t_parser *parse, t_env_list **envp);
 void    exec_pwd(t_env_list *env);
-void    exec_unset(t_env_list **env, char *key);
+void    exec_unset(t_env_list **env, char **key);
 
 //t_env_list
 t_env_list	*env_last(t_env_list *lst);
@@ -58,7 +58,11 @@ void    print_error(char *error, char *ar, int ex_code);
 int		check_builtin(t_parser *parser);
 void 	exec_builtins(t_parser *parser, t_env_list *env);
 int parent_builtins(t_parser *parser);
-void print_error2(char *error, char *ar, int ex_code);
+int print_error2(char *error, char *ar, int ex_code);
 char	*join_env(char const *s1, char const *s2);
+void    dup_redirections(int input, int output, char *cmd);
+
+void hd_sg();
+void    handler();
 
 #endif

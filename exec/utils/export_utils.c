@@ -32,21 +32,32 @@ int	check_doube(t_env_list **env, char *key)
 	char **tmp;
 
 	tmp  = ft_split(key, '=');
-	if (search_env(env, tmp[0]))
-		return (1);
-	else if (ft_strnchr(tmp[0], '+') == ft_strlen(tmp[0]) - 1)
+	if (tmp[0])
 	{
-		tmp[0] = ft_substr(tmp[0], 0, ft_strlen(tmp[0]) -1);
 		if (search_env(env, tmp[0]))
-			return (2);
+		{
+			free_array(tmp);
+			return (1);
+		}
+		else if (ft_strnchr(tmp[0], '+') == ft_strlen(tmp[0]) - 1)
+		{
+			free(tmp[0]);
+			tmp[0] = ft_substr(tmp[0], 0, ft_strlen(tmp[0]) -1);
+			if (search_env(env, tmp[0]))
+			{
+				free_array(tmp);
+				return (2);
+			}
+		}
 	}
+	free_array(tmp);
 	return (0);
 }
 
 int	check_key(char *key)
 {
     int i;
-	char **keys;
+	char **keys = NULL;
 
     i = 1;
 	keys = ft_split(key, '=');
@@ -57,6 +68,7 @@ int	check_key(char *key)
             if (!ft_isalnumdash(keys[0][i]))
             {
                 print_error(": not a valid identifier\n", keys[0], 1);
+				free_array(keys);
                 return (0);
             }
             i++;
@@ -65,8 +77,10 @@ int	check_key(char *key)
     else
     {
         print_error(": event not found\n", key, 0);
+		free_array(keys);
         return (0);
     }
+	free_array(keys);
     return (1);
 }
 

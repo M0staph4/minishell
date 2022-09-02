@@ -62,10 +62,10 @@ char *add_value(char *value)
 char *add_dolar(t_lexer *lexer)
 {
 	char *value;
-	char *s;
 
 	value = ft_strdup("");
-	lexer_advance(lexer);
+	if(lexer->c == '$')
+		lexer_advance(lexer);
 	if(lexer->c  == '?')
 	{
 		free(value);
@@ -73,19 +73,18 @@ char *add_dolar(t_lexer *lexer)
 		return(ft_strdup("?"));
 	}
 	if(lexer->c == '"' || lexer->c == '\'')
-		return(NULL);
-	while ((lexer->c != '\0') && (ft_isalpha(lexer->c) || lexer->c == '_' || ft_isalnum(lexer->c)))
 	{
-		s = get_char_as_string(lexer);
-		value = ft_strjoin(value, s);
-		free(s);
-		lexer_advance(lexer);
+		free(value);
+		return(NULL);
 	}
+	while ((lexer->c != '\0') && (ft_isalpha(lexer->c) || lexer->c == '_' || ft_isalnum(lexer->c)))
+		value = join_char(lexer, value);
 	return(value);
 }
 
 char *join_dolar(char *dolar, t_env_list *env)
 {
+	printf("%d-----\n",exit_status);
 	if(!dolar)
 		return(NULL);
 	if(get_env(&env, dolar))
@@ -100,7 +99,6 @@ char *join_dolar(char *dolar, t_env_list *env)
 char *add_dolar_and_after_q(t_lexer *lexer, t_env_list *env)
 {
 	char *value;
-	char *s;
 
 	value = ft_strdup("");
 	while(!sp_c(lexer->c) || lexer->c == '$')
@@ -108,12 +106,7 @@ char *add_dolar_and_after_q(t_lexer *lexer, t_env_list *env)
 		if(lexer->c == '$')
 			value = dolar(lexer, env, value);
 		if(!sp_c(lexer->c))
-		{
-			s = get_char_as_string(lexer);
-			value = ft_strjoin(value, s);
-			free(s);
-			lexer_advance(lexer);
-		}
+			value = join_char(lexer, value);
 	}
 	return(value);
 }

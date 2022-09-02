@@ -1,6 +1,5 @@
 #include "../../inc/header.h"
 
-
 static char	*ft_strcpy(char *dst, const char *src)
 {
 	size_t	i;
@@ -71,7 +70,7 @@ void exec_env(t_parser *parse, t_env_list **envp)
 	env = *envp;
 	if (parse->args[1])
 	{
-		printf("env: %s: No such file or directory\n", parse->args[1]);
+		print_error2(": No such file or directory", parse->args[1], 127);
 		return ;
 	}
 	while (env)

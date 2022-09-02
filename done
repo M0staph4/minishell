@@ -1,0 +1,43 @@
+
+# to do
+# exit code
+# cat << eof > l | cat << eof >> l
+# free leaks
+# pipe leaks
+#exit builtins in last command :
+#   pwd | dfsdf: working well
+#   ls | dsdf: not working
+#   
+
+done : 
+cat | > ff
+pwd | cd
+pwd | env
+test:
+echo hhh | echo lll
+env | grep HOME
+echo lol > lol | echo Lolo >> lol
+cat /dev/random | head  -c 100 | wc -c
+'E'Cho -n a
+
+exit:
+exit 3 | cd ..
+builtins exit
+cat Makefile  > ff  |echo >> ff| echo wach >> ff: done
+cat Makefile  > f > ff |echo dfdfsfds >> ff:  done
+cat ff > l | export > l | echo sdsd > l: done
+
+
+
+cat file > l | export >> l | echo sdsd > l: done
+if i fix one the other won't work
+cat << eof > l | cat << eof >> l: done
+cat << eof > l | cat << eof > l: not  done
+echo $?USER
+
+
+heredoc 
+ctrl + d
+ctrl + c
+
+export #

@@ -34,11 +34,11 @@ char **add_args_to_list(char **args, t_token *token)
 
 	count = count_args(args);
 	i = -1;
-	if(count)
-		free(args);
 	new_args = malloc(sizeof(char *) * (count + 2));
 	while(++i < count)
 		new_args[i] = args[i];
+	if(count)
+		free(args);
 	new_args[i++] = ft_strdup(token->content);
 	new_args[i] = NULL;
 	free(token->content);

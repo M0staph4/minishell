@@ -1,23 +1,25 @@
 #include "../../inc/header.h"
 
-void append_value(t_env_list  **env, char *key, char *value)
+void append_value(t_env_list  **env, char *key_a, char *value)
 {
 	t_env_list *tmp;
+	char		*key;
 
     tmp = *env;
-	key = ft_substr(key, 0, ft_strlen(key) -1);
+	key = ft_substr(key_a, 0, ft_strlen(key_a) -1);
     while (tmp)
     {
         if (!ft_strncmp(tmp->key, key, (ft_strlen(key) + 1)))
 		{
 			tmp->separator = "=";
 			if (!tmp->content)
-				tmp->content = value;
+				tmp->content = ft_strdup(value);
 			else
             	tmp->content = ft_strjoin(tmp->content, value);
 		}
         tmp = tmp->next;
     }
+	free(key);
 }
 
 void    replace_value(t_env_list  **env, char *key, char *value)
@@ -30,7 +32,9 @@ void    replace_value(t_env_list  **env, char *key, char *value)
         if (!ft_strncmp(tmp->key, key, (ft_strlen(key) + 1)))
 		{
 			tmp->separator = "=";
-            tmp->content = value;
+			if (tmp->content)
+				free(tmp->content);
+            tmp->content = ft_strdup(value);
 		}
         tmp = tmp->next;
     }
@@ -49,13 +53,13 @@ void	add_key(t_env_list *env,  char *args)
             env_add_back(&env, new_env(temp[0], temp[1], "="));
         else
             env_add_back(&env, new_env(temp[0], NULL, "="));
+		free_array(temp);
     }
     else
     {
         tmp = new_env(args, NULL, NULL);
         env_add_back(&env, tmp);
     }  
-    free(temp);
 }
 
 void set_export(t_env_list *env,  char **args)
@@ -67,7 +71,9 @@ void set_export(t_env_list *env,  char **args)
     i = 1;
     while(args[i])
     {
-		if (!check_doube(&env, args[i]))
+		if (args[i][0] == '=')
+			print_error(": not a valid identifier\n", args[i], 1);
+		else if (!check_doube(&env, args[i]))
 		{
         	if (check_key(args[i]))
 				add_key(env, args[i]);
@@ -75,10 +81,11 @@ void set_export(t_env_list *env,  char **args)
 		else
 		{
 			temp = ft_split(args[i], '=');
-			if (check_doube(&env, args[i]) == 1)
+			if (check_doube(&env, args[i]) == 1 && ( temp[1] || ft_strchr(args[i], '=')))
 				replace_value(&env, temp[0], temp[1]);
 			else if (check_doube(&env, args[i]) == 2)
 				append_value(&env, temp[0], temp[1]);
+			free_array(temp);
 		}
         i++;
     }
@@ -89,7 +96,7 @@ void exec_export(t_parser *parse, t_env_list **envp)
 	t_env_list	*env;
 
 	env = *envp;
-	if (parse->args[1])
+	if (parse->args[1] && parse->args[1][0] != '#')
         set_export(env, parse->args);
 	else
 	{

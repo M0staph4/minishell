@@ -23,4 +23,5 @@ char *add_dolar(t_lexer *lexer);
 char *join_dolar(char *dolar, t_env_list *env);
 char *add_dolar_and_after_q(t_lexer *lexer, t_env_list *env);
 char *dolar(t_lexer *lexer ,t_env_list *env, char *value);
+char *join_char(t_lexer *lexer, char *value);
 #endif

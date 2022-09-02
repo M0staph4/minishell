@@ -1,27 +1,40 @@
 #include "../inc/header.h"
+
+char *join_char(t_lexer *lexer, char *value)
+{
+	char *s;
+
+	s = get_char_as_string(lexer);
+	value = ft_strjoin(value, s);
+	free(s);
+	lexer_advance(lexer);
+	return(value);
+}
+
 char *dolar_q(t_lexer *lexer ,t_env_list *env, char *value)
 {
 	char *join;
 	char *dolar;
-	char *s;
+
 	while(lexer->c != '"')
 	{
 		if(lexer->c == '$')
 		{
-			dolar = add_dolar(lexer);
-			join = join_dolar(dolar, env);
+			lexer_advance(lexer);
+			if(lexer->c == '"')
+				join = ft_strdup("$");
+			else
+			{
+				dolar = add_dolar(lexer);
+				join = join_dolar(dolar, env);
+				free(dolar);
+			}
 			if(join)
 				value = ft_strjoin(value, join);
 			free(join);
-			free(dolar);
 		}
 		else
-		{
-			s = get_char_as_string(lexer);
-			value = ft_strjoin(value, s);
-			free(s);
-			lexer_advance(lexer);
-		}
+			value = join_char(lexer, value);
 	}
 	return (value);
 }
@@ -29,7 +42,6 @@ char *dolar_q(t_lexer *lexer ,t_env_list *env, char *value)
 char *join_to_join(t_lexer *lexer, char c, t_env_list *env)
 {
 	char *value;
-	char *s;
 	int q;
 
 	q = 0;
@@ -42,12 +54,7 @@ char *join_to_join(t_lexer *lexer, char c, t_env_list *env)
 		if(lexer->c == '$' && q == 1)
 			value = dolar_q(lexer, env, value);
 		if(lexer->c != c)
-		{
-			s = get_char_as_string(lexer);
-			value = ft_strjoin(value, s);
-			free(s);
-			lexer_advance(lexer);
-		}
+			value = join_char(lexer, value);
 	}
 	return(value);
 }

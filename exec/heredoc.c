@@ -1,16 +1,40 @@
 #include "../inc/header.h"
+void    handle_c()
+{
+	
+}
 
+void handler_heredoc_sg()
+{
+
+}
 void heredoc_implementation(char *delim, int end)
 {
     char *buff;
 
     buff = NULL;
-    while((ft_strncmp(delim, buff, ft_strlen(delim))))
-    {
-        buff = readline("> ");
-        if ((ft_strncmp(delim, buff, ft_strlen(delim))))
-            ft_putendl_fd(buff, end);
-    }
+    // if (fork() == 0)
+    // {
+        while((ft_strncmp(delim, buff, ft_strlen(delim))))
+        {
+            // handler_heredoc_sg();
+            buff = readline("> ");
+            // if (signal(SIGINT, NULL))
+            // {
+            //     exit_status = 130;
+            //     break;
+            // }
+            if (!buff)
+            {
+                free(buff);
+                break;
+            }
+            if ((ft_strncmp(delim, buff, ft_strlen(delim))))
+                ft_putendl_fd(buff, end);
+            free(buff);
+        }
+    //     exit(0);
+    // }
 }
 
 void    heredoc(t_parser **parse)

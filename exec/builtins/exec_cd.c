@@ -1,6 +1,6 @@
 #include "../../inc/header.h"
 
-char	*pwd()
+char	*get_pwd()
 {
 	char buf[250];
 	char *buff;
@@ -15,18 +15,25 @@ char	*pwd()
 
 void	replace_pwd(t_env_list *env, char *old_pwd)
 {
-	if (old_pwd)
-		replace_value(&env, "OLDPWD", old_pwd);
-	else
-		replace_value(&env, "OLDPWD", get_env(&env, "PWD"));
-	replace_value(&env, "PWD", pwd());
+	char *pwd;
+
+	pwd = get_pwd();
+	if (search_env(&env, "OLDPWD"))
+	{
+		if (old_pwd)
+			replace_value(&env, "OLDPWD", old_pwd);
+		else
+			replace_value(&env, "OLDPWD", get_env(&env, "PWD"));
+	}
+	replace_value(&env, "PWD", pwd);
+	free(pwd);
 }
 
 void    exec_cd(char *path, t_env_list *env)
 {
 	char *old_pwd;
 
-	old_pwd = pwd();
+	old_pwd = get_pwd();
     if (path == NULL || !ft_strncmp(path, "~", 2))
 	{
 		if (search_env(&env, "HOME"))
@@ -39,9 +46,15 @@ void    exec_cd(char *path, t_env_list *env)
 	}
 	else
 	{
-		if (chdir(path))
+		if (path[0] == '\0')
+		{
+			free(old_pwd);
+			return ;
+		}
+		else if (chdir(path))
 			print_error2(": No such file or directory", path, 1);
 		else
 			replace_pwd(env, old_pwd);
 	}
+	free(old_pwd);
 }

@@ -5,7 +5,7 @@ int is_numeric(char *ar)
     int i;
 
     i = 0;
-    if (ar[0] == '-')
+    if (ar[0] == '-' || ar[0] == '+')
         i++;
     while (ar[i])
     {
@@ -36,7 +36,10 @@ void    exec_exit(t_parser *parser)
     }
     else
     {
-        exit_status = ft_atoi(parser->args[1]);
+        if (ft_atoi(parser->args[1]) > 255)
+            exit_status = ft_atoi(parser->args[1]) % 256;
+        else
+            exit_status = ft_atoi(parser->args[1]);
         ft_putendl_fd("exit", 1);
         exit(exit_status);
     }

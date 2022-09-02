@@ -25,7 +25,7 @@ void 	exec_builtins(t_parser *parser, t_env_list *env)
 	else if (!ft_strncmp(parser->cmd, "export", 8))
         exec_export(parser, &env);
 	else if (!ft_strncmp(parser->cmd, "unset", 6))
-        exec_unset(&env, parser->args[1]);
+        exec_unset(&env, parser->args);
 }
 
 int parent_builtins(t_parser *parser)

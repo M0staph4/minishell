@@ -75,8 +75,7 @@ int    redirections(t_redirection *red, char *cmd)
             input = redirection_in_from(red);
             if (input == -1)
             {
-                perror("file");
-                exit_status = 1;
+                print_error2(": No such file or directory", red->file, 1);
                 return (-1);
             }
         }
