@@ -6,7 +6,7 @@
 /*   By: mmoutawa <mmoutawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 02:11:31 by mmoutawa          #+#    #+#             */
-/*   Updated: 2022/09/03 02:11:32 by mmoutawa         ###   ########.fr       */
+/*   Updated: 2022/09/03 02:33:22 by mmoutawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_token
 		TOKEN_APPEND,
 		TOKEN_NULL,
 		TOKEN_DLR,
-	}	type;
+	}	e_type;
 }	t_token;
 
 t_token	*init_token(int type, char *value);

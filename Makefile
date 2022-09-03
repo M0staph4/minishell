@@ -9,7 +9,7 @@ SRC = minishell.c lexer/lexer.c lexer/tokenizer.c parser/parser.c parser/redirec
 		exec/utils/error_management.c exec/builtins.c lexer/lexer_tools_2.c lexer/syntax_tools.c lexer/dolar_tools.c \
 		parser/parse_tools.c
 LIB = libft.a
-RDLINE=  -lreadline -L /Users/cel-mhan/goinfre/.brew/opt/readline/lib -I /Users/cel-mhan/goinfre/.brew/opt/readline/include
+RDLINE=  -lreadline -L /Users/mmoutawa/goinfre/.brew/opt/readline/lib -I /Users/mmoutawa/goinfre/.brew/opt/readline/include
 
 
 # This is a minimal set of ANSI/VT100 color codes

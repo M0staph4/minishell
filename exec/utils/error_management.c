@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_management.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cel-mhan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mmoutawa <mmoutawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 23:23:07 by cel-mhan          #+#    #+#             */
-/*   Updated: 2022/09/02 23:23:09 by cel-mhan         ###   ########.fr       */
+/*   Updated: 2022/09/03 02:36:03 by mmoutawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ void	print_error(char *error, char *ar, int ex_code)
 {
 	ft_putstr_fd(ar, 2);
 	ft_putstr_fd(error, 2);
-	exit_status = ex_code;
+	g_exit_status = ex_code;
 }
 
 int	print_error2(char *error, char *ar, int ex_code)
 {
 	ft_putstr_fd(ar, 2);
 	ft_putendl_fd(error, 2);
-	exit_status = ex_code;
-	return (exit_status);
+	g_exit_status = ex_code;
+	return (g_exit_status);
 }

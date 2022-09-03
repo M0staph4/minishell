@@ -6,7 +6,7 @@
 /*   By: mmoutawa <mmoutawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 01:18:42 by mmoutawa          #+#    #+#             */
-/*   Updated: 2022/09/03 01:18:43 by mmoutawa         ###   ########.fr       */
+/*   Updated: 2022/09/03 02:34:10 by mmoutawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ t_parser	*add_parse(t_parser *parse, t_token *token, t_vr_tools *tools)
 {
 	t_parser	*tmp;
 
-	if (token->type == TOKEN_STR)
+	if (token->e_type == TOKEN_STR)
 	{
 		if (!tools->cmd)
 			tools->cmd = ft_strdup(token->content);
 		tools->args = add_args_to_list(tools->args, token);
 	}
-	else if (token->type == TOKEN_PIPE)
+	else if (token->e_type == TOKEN_PIPE)
 	{
 		tmp = new_parse(tools->cmd, tools->args, tools->red);
 		parser_add_back(&parse, tmp);
@@ -52,7 +52,7 @@ t_redirection	*add_red_to_list(t_token *token, t_vr_tools *tools)
 {
 	t_redirection	*red;
 
-	red = new_red(token->type, token->content);
+	red = new_red(token->e_type, token->content);
 	red_add_back(&tools->red, red);
 	return (tools->red);
 }

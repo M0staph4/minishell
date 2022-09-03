@@ -6,7 +6,7 @@
 /*   By: mmoutawa <mmoutawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 01:18:06 by mmoutawa          #+#    #+#             */
-/*   Updated: 2022/09/03 01:18:07 by mmoutawa         ###   ########.fr       */
+/*   Updated: 2022/09/03 02:36:03 by mmoutawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	*join_dolar(char *dolar, t_env_list *env)
 	else if (!dolar[0])
 		return (ft_strdup("$"));
 	else if (dolar[0] == '?' && !dolar[1])
-		return (ft_itoa(exit_status));
+		return (ft_itoa(g_exit_status));
 	return (NULL);
 }
 

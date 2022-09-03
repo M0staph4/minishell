@@ -6,7 +6,7 @@
 /*   By: mmoutawa <mmoutawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 01:18:24 by mmoutawa          #+#    #+#             */
-/*   Updated: 2022/09/03 01:18:25 by mmoutawa         ###   ########.fr       */
+/*   Updated: 2022/09/03 02:36:03 by mmoutawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,13 +122,13 @@ int	ft_syntax_error(char *line)
 	else if (!check_pipe(line))
 	{
 		printf("Pipe: syntax error\n");
-		exit_status = 258;
+		g_exit_status = 258;
 		return (0);
 	}
 	else if (!check_red(line))
 	{
 		printf("syntax error\n");
-		exit_status = 258;
+		g_exit_status = 258;
 		return (0);
 	}
 	return (1);

@@ -1,21 +1,22 @@
 #include "inc/header.h"
 #include "struct.h"
 
-// void    handler()
-// {
-// 	exit_status = 130;
-//     rl_replace_line("", 0);
-//     ft_putchar_fd('\n', 1);
-//     rl_on_new_line();
-//     rl_redisplay();
-//     return;
-// }
-// void hd_sg()
-// {
-// 	if (!signal(SIGQUIT, SIG_IGN))
-// 		exit_status = 1;
-// 	signal(SIGINT, handler);
-// }
+void	handler(void)
+{
+	g_exit_status = 130;
+	rl_replace_line("", 0);
+	ft_putchar_fd('\n', 1);
+	rl_on_new_line();
+	rl_redisplay();
+	return ;
+}
+
+void	hd_sg(void)
+{
+	if (!signal(SIGQUIT, SIG_IGN))
+		g_exit_status = 1;
+	signal(SIGINT, handler);
+}
 
 void	free_leaks(t_parser *parse)
 {
@@ -76,7 +77,7 @@ int	main(int ac, char **av, char **envp)
 	(void) av;
 	while ("everything is okey")
 	{
-		//hd_sg();
+		hd_sg();
 		line = readline("minishell: ");
 		minishell(line, env);
 	}

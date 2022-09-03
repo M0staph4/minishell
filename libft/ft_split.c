@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cel-mhan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mmoutawa <mmoutawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/14 02:51:20 by cel-mhan          #+#    #+#             */
-/*   Updated: 2021/11/19 02:30:18 by cel-mhan         ###   ########.fr       */
+/*   Updated: 2022/09/03 02:53:44 by mmoutawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,3 @@ char	**ft_split(char const *s, char c)
 	array[i] = NULL;
 	return (array);
 }
-

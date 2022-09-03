@@ -6,7 +6,7 @@
 /*   By: mmoutawa <mmoutawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 01:18:27 by mmoutawa          #+#    #+#             */
-/*   Updated: 2022/09/03 01:18:28 by mmoutawa         ###   ########.fr       */
+/*   Updated: 2022/09/03 02:34:10 by mmoutawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_token	*init_token(int type, char *value)
 
 	token = malloc (sizeof(t_token));
 	token->content = ft_strdup(value);
-	token->type = type;
+	token->e_type = type;
 	free(value);
 	return (token);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipeline.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cel-mhan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mmoutawa <mmoutawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/03 01:00:40 by cel-mhan          #+#    #+#             */
-/*   Updated: 2022/09/03 01:00:41 by cel-mhan         ###   ########.fr       */
+/*   Updated: 2022/09/03 02:36:03 by mmoutawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	execute_last_cmd(t_parser **p, t_env_list **env, int fd_in, int *end)
 			else
 				execute(env, (*p));
 		}
-		exit(exit_status);
+		exit(g_exit_status);
 	}
 }
 
@@ -58,18 +58,18 @@ void	wait_child(int i)
 	while (waitpid(0, &status, 0) > 0)
 	{
 		if (WEXITSTATUS(status) && !i)
-			exit_status = WEXITSTATUS(status);
+			g_exit_status = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
 		{
 			if (!i)
-				exit_status = WIFSIGNALED(status) + 129;
+				g_exit_status = WIFSIGNALED(status) + 129;
 			else
-				exit_status = WIFSIGNALED(status);
+				g_exit_status = WIFSIGNALED(status);
 		}
 		i = 1;
 	}
 	if (!i)
-		exit_status = 0;
+		g_exit_status = 0;
 }
 
 void	launch_child(t_parser **parser, t_env_list **env, int fd_in, int *end)
@@ -91,7 +91,7 @@ void	launch_child(t_parser **parser, t_env_list **env, int fd_in, int *end)
 			else
 				execute(env, (*parser));
 		}
-		exit(exit_status);
+		exit(g_exit_status);
 	}
 }
 

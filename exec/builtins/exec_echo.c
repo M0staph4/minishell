@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_echo.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cel-mhan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mmoutawa <mmoutawa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/02 23:14:39 by cel-mhan          #+#    #+#             */
-/*   Updated: 2022/09/02 23:14:41 by cel-mhan         ###   ########.fr       */
+/*   Updated: 2022/09/03 02:36:03 by mmoutawa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,5 @@ void	exec_echo(t_parser *parser)
 		print_args(parser->args);
 	else
 		print_without_option(parser->args);
-	exit(exit_status);
+	exit(g_exit_status);
 }
