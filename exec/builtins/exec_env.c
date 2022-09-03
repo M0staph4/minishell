@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_env.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cel-mhan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/02 23:14:47 by cel-mhan          #+#    #+#             */
+/*   Updated: 2022/09/02 23:14:49 by cel-mhan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/header.h"
 
 static char	*ft_strcpy(char *dst, const char *src)
@@ -26,12 +38,13 @@ char	*join_env(char const *s1, char const *s2)
 	return (result);
 }
 
-char **t_env_list_to_char(t_env_list **env)
+char	**t_env_list_to_char(t_env_list **env)
 {
-	t_env_list *tmp;
-	char **envp = malloc (sizeof(char *) * (env_size(env) + 1));
-	int i;
+	t_env_list	*tmp;
+	char		**envp;
+	int			i;
 
+	envp = malloc (sizeof(char *) * (env_size(env) + 1));
 	tmp = (*env);
 	i = 0;
 	while (tmp)
@@ -45,25 +58,25 @@ char **t_env_list_to_char(t_env_list **env)
 	return (envp);
 }
 
-t_env_list    *env_builder(char **envp)
+t_env_list	*env_builder(char **envp)
 {
-    char        **tmp;
-    int         i;
+	char		**tmp;
+	int			i;
 	t_env_list	*env;
 
-	env  = NULL;
-    i = 0;
-    while(envp[i])
-    {
-        tmp = ft_split(envp[i], '=');
-        env_add_back(&env, new_env(tmp[0], tmp[1], "="));
+	env = NULL;
+	i = 0;
+	while (envp[i])
+	{
+		tmp = ft_split(envp[i], '=');
+		env_add_back(&env, new_env(tmp[0], tmp[1], "="));
 		free_array(tmp);
 		i++;
-    }
+	}
 	return (env);
 }
 
-void exec_env(t_parser *parse, t_env_list **envp)
+void	exec_env(t_parser *parse, t_env_list **envp)
 {
 	t_env_list	*env;
 

@@ -1,27 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cmd_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cel-mhan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/02 23:22:55 by cel-mhan          #+#    #+#             */
+/*   Updated: 2022/09/02 23:22:57 by cel-mhan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/header.h"
 
-void	check_acess(char *path)
+void	dup_redirections(int input, int output, char *cmd)
 {
-	if (access(path, F_OK) != 0)
-		ft_putstr_fd("File does not exist\n", 2);
-	if (access(path, R_OK) != 0)
-		ft_putstr_fd("Permission denied\n", 2);
-	if (access(path, W_OK) != 0)
-		ft_putstr_fd("You have write access\n", 2);
-}
-
-
-int	open_file(char *cmd, char *file, int mode)
-{
-	if (mode == 1 && access(file, F_OK) == 0)
-		return (open(file, O_RDONLY, 0));
-	else
+	if (output != -3 && cmd)
 	{
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(file, 2);
-		ft_putstr_fd(": No such file or directory", 2);
-		return (-1);
+		dup2(output, STDOUT_FILENO);
+		close(output);
+	}
+	if (input != -2 && cmd)
+	{
+		dup2(input, STDIN_FILENO);
+		close(input);
 	}
 }
 
@@ -37,4 +38,40 @@ void	close_pipe(int *end, int fd_in)
 		close(end[WRITE]);
 	if (fd_in != STDIN_FILENO)
 		close(fd_in);
+}
+
+void	execute_execve(t_parser *parser, char *path, char **envp)
+{
+	if ((execve(path, parser->args, envp) == -1))
+	{
+		if (parser->next)
+			print_error2(parser->cmd, "command not found: ", 0);
+		else
+		{
+			print_error2(parser->cmd, "command not found: ", 127);
+			exit(127);
+		}
+	}
+}
+
+void	execute(t_env_list **env, t_parser *parser)
+{
+	char	*path;
+	char	**envp;
+
+	envp = t_env_list_to_char(env);
+	if (parser->cmd[0] == '.' || parser->cmd[0] == '/')
+	{
+		path = parser->cmd;
+		if (access(path, X_OK))
+		{
+			print_error2(": Permission denied", path, 126);
+			exit(126);
+		}
+	}
+	else
+		path = search(envp, parser->cmd, 0);
+	execute_execve(parser, path, envp);
+	free_array(envp);
+	free(path);
 }

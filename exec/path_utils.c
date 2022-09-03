@@ -1,4 +1,16 @@
-  #include "../inc/header.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   path_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cel-mhan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/03 00:59:10 by cel-mhan          #+#    #+#             */
+/*   Updated: 2022/09/03 00:59:13 by cel-mhan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../inc/header.h"
 
 char	**find_path(char **envp)
 {
@@ -7,7 +19,7 @@ char	**find_path(char **envp)
 	char	**paths;
 
 	i = find_path_env(envp, "PATH=");
-	if (i !=  -1)
+	if (i != -1)
 	{
 		env_path = ft_split(envp[i], '=');
 		paths = ft_split(env_path[1], ':');
@@ -31,14 +43,12 @@ int	find_path_env(char **envp, char *path)
 	return (-1);
 }
 
-char	*search(char **envp, char *cmd)
+char	*search(char **envp, char *cmd, int i)
 {
-	int		i;
 	char	**paths;
 	char	*x;
 	char	*x2;
 
-	i = 0;
 	paths = find_path(envp);
 	if (paths)
 	{

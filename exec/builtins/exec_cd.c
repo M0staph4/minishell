@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_cd.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cel-mhan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/02 23:14:30 by cel-mhan          #+#    #+#             */
+/*   Updated: 2022/09/02 23:14:33 by cel-mhan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/header.h"
 
-char	*get_pwd()
+char	*get_pwd(void)
 {
-	char buf[250];
-	char *buff;
+	char	buf[250];
+	char	*buff;
 
 	buff = buf;
-    if(getcwd(buf, sizeof(buf)))
+	if (getcwd(buf, sizeof(buf)))
 		buff = ft_strdup(buf);
 	else
 		buff = NULL;
@@ -15,7 +27,7 @@ char	*get_pwd()
 
 void	replace_pwd(t_env_list **env, char *old_pwd)
 {
-	char *pwd;
+	char	*pwd;
 
 	pwd = get_pwd();
 	if (search_env(env, "OLDPWD"))
@@ -29,21 +41,24 @@ void	replace_pwd(t_env_list **env, char *old_pwd)
 	free(pwd);
 }
 
-void    exec_cd(char *path, t_env_list **env)
+void	cd_home(t_env_list **env, char *old_pwd)
 {
-	char *old_pwd;
+	if (search_env(env, "HOME"))
+	{
+		chdir(get_env(env, "HOME"));
+		replace_pwd(env, old_pwd);
+	}
+	else
+		print_error("cd: HOME not set\n", NULL, 1);
+}
+
+void	exec_cd(char *path, t_env_list **env)
+{
+	char	*old_pwd;
 
 	old_pwd = get_pwd();
-    if (path == NULL || !ft_strncmp(path, "~", 2))
-	{
-		if (search_env(env, "HOME"))
-		{
-			chdir(get_env(env, "HOME"));
-			replace_pwd(env, old_pwd);
-		}
-		else
-			print_error("cd: HOME not set\n", NULL, 1);
-	}
+	if (path == NULL || !ft_strncmp(path, "~", 2))
+		cd_home(env, old_pwd);
 	else
 	{
 		if (path[0] == '\0')

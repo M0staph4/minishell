@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cel-mhan <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/02 23:23:13 by cel-mhan          #+#    #+#             */
+/*   Updated: 2022/09/02 23:23:15 by cel-mhan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../inc/header.h"
 
 int	ft_isalnumdash(int c)
@@ -29,9 +41,9 @@ size_t	ft_strnchr(const char *s, int c)
 
 int	check_doube(t_env_list **env, char *key)
 {
-	char **tmp;
+	char	**tmp;
 
-	tmp  = ft_split(key, '=');
+	tmp = ft_split(key, '=');
 	if (tmp[0])
 	{
 		if (search_env(env, tmp[0]))
@@ -42,7 +54,7 @@ int	check_doube(t_env_list **env, char *key)
 		else if (ft_strnchr(tmp[0], '+') == ft_strlen(tmp[0]) - 1)
 		{
 			free(tmp[0]);
-			tmp[0] = ft_substr(tmp[0], 0, ft_strlen(tmp[0]) -1);
+			tmp[0] = ft_substr(tmp[0], 0, ft_strlen(tmp[0]) - 1);
 			if (search_env(env, tmp[0]))
 			{
 				free_array(tmp);
@@ -54,34 +66,32 @@ int	check_doube(t_env_list **env, char *key)
 	return (0);
 }
 
-int	check_key(char *key)
+int	check_key(char *key, int i)
 {
-    int i;
-	char **keys = NULL;
+	char	**keys;
 
-    i = 1;
 	keys = ft_split(key, '=');
-    if (ft_isalpha(keys[0][0]) || keys[0][0] == '_')
-    {
-        while(keys[0][i])
-        {
-            if (!ft_isalnumdash(keys[0][i]))
-            {
-                print_error(": not a valid identifier\n", keys[0], 1);
+	if (ft_isalpha(keys[0][0]) || keys[0][0] == '_')
+	{
+		while (keys[0][i])
+		{
+			if (!ft_isalnumdash(keys[0][i]) || keys[0][0] == '\0')
+			{
+				print_error(": not a valid identifier\n", keys[0], 1);
 				free_array(keys);
-                return (0);
-            }
-            i++;
-        }
-    }
-    else
-    {
-        print_error(": event not found\n", key, 0);
+				return (0);
+			}
+			i++;
+		}
+	}
+	else
+	{
+		print_error(": event not found\n", key, 0);
 		free_array(keys);
-        return (0);
-    }
+		return (0);
+	}
 	free_array(keys);
-    return (1);
+	return (1);
 }
 
 t_env_list	*env_last(t_env_list *lst)
