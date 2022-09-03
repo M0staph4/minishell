@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dolar_tools.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmoutawa <mmoutawa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/03 01:18:10 by mmoutawa          #+#    #+#             */
+/*   Updated: 2022/09/03 01:18:11 by mmoutawa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/header.h"
 
 char	*dolar_q(t_lexer *lexer, t_env_list *env, char *value)
@@ -10,7 +22,7 @@ char	*dolar_q(t_lexer *lexer, t_env_list *env, char *value)
 		if (lexer->c == '$')
 		{
 			lexer_advance(lexer);
-			if (lexer->c == '"')
+			if (lexer->c == '"' || !ft_isalnum(lexer->c))
 				join = ft_strdup("$");
 			else
 			{

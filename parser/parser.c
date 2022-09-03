@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmoutawa <mmoutawa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/03 01:18:42 by mmoutawa          #+#    #+#             */
+/*   Updated: 2022/09/03 01:18:43 by mmoutawa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/header.h"
 
 void	free_array(char **args)
@@ -45,15 +57,11 @@ t_redirection	*add_red_to_list(t_token *token, t_vr_tools *tools)
 	return (tools->red);
 }
 
-t_vr_tools	*init_tools(void)
+void	free_staff(char *cmd, t_vr_tools *tools, t_lexer *lexer)
 {
-	t_vr_tools	*tools;
-
-	tools = malloc (sizeof(t_vr_tools));
-	tools->red = NULL;
-	tools->cmd = NULL;
-	tools->args = NULL;
-	return (tools);
+	free(cmd);
+	free(tools);
+	free(lexer);
 }
 
 t_parser	*lexing(char *line, t_token *token,
@@ -75,19 +83,13 @@ t_parser	*lexing(char *line, t_token *token,
 			if (token)
 			{
 				x = 1;
-				if (token->type == TOKEN_REDIN || token->type == TOKEN_REDOUT
-					|| token->type == TOKEN_APPEND || token->type == TOKEN_HEREDOC)
-					tools->red = add_red_to_list(token, tools);
-				parse = add_parse(parse, token, tools);
-				free(token);
+				parse = parse_value(parse, token, tools);
 			}
 		}
 		if (x && !lexer->c)
 			parser_add_back(&parse,
 				new_parse(tools->cmd, tools->args, tools->red));
-		free(tools->cmd);
-		free(tools);
-		free(lexer);
+		free_staff(tools->cmd, tools, lexer);
 	}
 	return (parse);
 }

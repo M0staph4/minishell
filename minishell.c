@@ -16,22 +16,23 @@
 // 		exit_status = 1;
 // 	signal(SIGINT, handler);
 // }
-void free_leaks(t_parser *parse)
+
+void	free_leaks(t_parser *parse)
 {
-	t_parser *tmp;
-	t_redirection *tmp_red;
-	
-	while(parse)
+	t_parser		*tmp;
+	t_redirection	*tmp_red;
+
+	while (parse)
 	{
-		if(parse->cmd)
+		if (parse->cmd)
 			free(parse->cmd);
-		if(parse->args)
+		if (parse->args)
 			free_array(parse->args);
-		if(parse->red)
+		if (parse->red)
 		{
-			while(parse->red)
+			while (parse->red)
 			{
-				if(parse->red->file)
+				if (parse->red->file)
 					free(parse->red->file);
 				tmp_red = parse->red;
 				parse->red = parse->red->next;
@@ -44,34 +45,40 @@ void free_leaks(t_parser *parse)
 	}
 }
 
-int main(int ac, char **av, char **envp)
+void	minishell(char *line, t_env_list *env)
 {
 	t_token		token;
 	t_parser	*parse;
-	t_env_list	*env;
-	t_vr_tools *tools;
+	t_vr_tools	*tools;
+
 	tools = NULL;
+	if (ft_syntax_error(line))
+		parse = lexing(line, &token, env, tools);
+	else
+		parse = NULL;
+	add_history(line);
+	if (parse)
+	{
+		heredoc(&parse);
+		pipeline_execution(&parse, &env);
+	}
+	free(line);
+	free_leaks(parse);
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	t_env_list	*env;
+	char		*line;
+
 	env = env_builder(envp);
-	char *line;
 	(void) ac;
 	(void) av;
 	while ("everything is okey")
 	{
 		//hd_sg();
 		line = readline("minishell: ");
-		if(ft_syntax_error(line))
-			parse = lexing(line, &token, env, tools);
-		else
-			parse = NULL;
-		add_history(line);
-		if(parse)
-		{
-			heredoc(&parse);
-			pipeline_execution(&parse, &env);
-		}
-		free(line);
-		free_leaks(parse);
+		minishell(line, env);
 	}
 	return (0);
 }
-

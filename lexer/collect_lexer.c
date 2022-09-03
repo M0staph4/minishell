@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   collect_lexer.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmoutawa <mmoutawa@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/09/03 01:17:59 by mmoutawa          #+#    #+#             */
+/*   Updated: 2022/09/03 01:18:01 by mmoutawa         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/header.h"
 
 t_token	*collect_cmd(t_lexer *lexer, t_env_list *env)
@@ -22,15 +34,22 @@ t_token	*collect_cmd(t_lexer *lexer, t_env_list *env)
 			free(join);
 		}
 	}
-	if (value)
-		value = add_value(value);
 	return (init_token(TOKEN_STR, value));
+}
+
+char	*red_value(char *value, t_lexer *lexer, t_env_list *env)
+{
+	char	*join;
+
+	join = join_to_join(lexer, lexer->c, env);
+	value = ft_strjoin(value, join);
+	free(join);
+	return (value);
 }
 
 t_token	*collect_red(t_lexer *lexer, int i, t_env_list *env)
 {
 	char	*value;
-	char	*join;
 	int		x;
 
 	x = 0;
@@ -48,12 +67,9 @@ t_token	*collect_red(t_lexer *lexer, int i, t_env_list *env)
 		if (lexer->c == '"' || lexer->c == '\'')
 		{
 			x = 1;
-			join = join_to_join(lexer, lexer->c, env);
-			value = ft_strjoin(value, join);
-			free(join);
+			value = red_value(value, lexer, env);
 		}
 	}
-	value = add_value(value);
 	return (init_token(i, value));
 }
 
@@ -79,7 +95,6 @@ t_token	*collect_apn_hrd(t_lexer *lexer, int i)
 		}
 		lexer_advance(lexer);
 	}
-	value = add_value(value);
 	return (init_token(i, value));
 }
 
@@ -107,6 +122,5 @@ t_token	*collect_string(t_lexer *lexer, t_env_list *env)
 			lexer_advance(lexer);
 		i = 0;
 	}
-	value = add_value(value);
 	return (init_token(TOKEN_STR, value));
 }
